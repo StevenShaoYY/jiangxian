@@ -28,18 +28,11 @@ export default {
       currentSelected: 0,
       tabBarList: [
         {
-          name: '首页',
+          name: '江鲜大会',
           icon: '../static/icon_home.svg',
           iconSelected: '../static/icon_home_selected.svg',
           pageName: 'home',
           pageUrl: '/pages/home/home'
-        },
-        {
-          name: '设备',
-          icon: '../static/icon_device.svg',
-          iconSelected: '../static/icon_device_selected.svg',
-          pageName: 'device',
-          pageUrl: '/pages/device/device'
         },
         {
           name: '我的',
@@ -81,12 +74,12 @@ export default {
 
 <style lang="scss">
 .tab-bar {
-  height: 8vh;
+  height: 150rpx;
   width: 100%;
   display: flex;
   justify-content: space-between;
   .tab-bar-item {
-    width: 10vh;
+    width: 50%;
     height: 100%;
     display: flex;
     justify-content: center;
@@ -99,12 +92,12 @@ export default {
     }
     .item-name {
       margin-top: 4rpx;
-      font-size: 10px;
+      font-size: 22rpx;
       text-align: center;
-      color: rgba(0, 0, 0, 0.3);
+      color: #DBDBDB;
     }
     .item-name-selected {
-      color: $uni-color-primary;
+      color: #010101;
     }
   }
 }

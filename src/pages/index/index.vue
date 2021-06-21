@@ -54,9 +54,9 @@ export default {
   methods: {
     scrollRefresh() {
       switch(this.pageName) {
-        case 'home':
-          this.$refs.home.loadMore()
-          break
+        // case 'home':
+        //   this.$refs.home.loadMore()
+        //   break
         case 'device':
           this.$refs.device.loadMore()
           break
@@ -88,7 +88,7 @@ export default {
 .main-container {
   .main-view {
     width: 100%;
-    height: 92vh;  // 关键属性
+    height:calc(100vh - 150rpx);  // 关键属性
     overflow: auto;
   }
   .tab-view {

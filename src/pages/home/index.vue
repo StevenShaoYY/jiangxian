@@ -9,30 +9,34 @@
 				</swiper-item>
 			</swiper>
     </view>
-    <view class="search-wrap">
-      <p class="search-title">搜索设备</p>
-      <uni-search-bar
-        class="search-bar"
-        @confirm="search"
-        @clear="clear"
-        @cancel="clear"
-        placeholder="设备名称/设备ID"
-      />
+    <view class="jiangxian-hot">
+      <view class="left">
+        <view class="hot"> HOT</view>
+        <view class="jx">江鲜热点</view>
+      </view>
+      <view class="center"></view>
+      <view class="right">
+        <swiper class="swiper-hot" circular :vertical="true"  :autoplay="autoplay" :interval="interval" :duration="duration">
+          <swiper-item v-for="(item, index) in swiperHotList" :key="index">
+            <view class="swiper-hot-item">
+              <view class="hot-title">{{item.title}}</view>
+              <view class="hot-date">{{item.date}}</view>
+            </view>
+          </swiper-item>
+        </swiper>
+      </view>
     </view>
-    <view class="content-wrap page-padding">
-      <card
-        v-for="(item, index) in deviceList"
+    <view class="main-menu">
+      <view
+        class="card"
+        v-for="(item, index) in cardList"
         :key="index"
-        :itemData="item"
-        :loading="loading"
-      />
-      <load-more v-if="isMoreLoading" />
+      >
+        <view class="main-name">{{item.name}}</view>
+        <view class="sub-name">{{item.sub}}</view>
+        
+      </view>
     </view>
-    <noData
-      v-if="!deviceList.length"
-      :height="30"
-      :iconSize="15"
-    />
   </view>
 </template>
 
@@ -40,8 +44,6 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 import noData from '../../layouts/noData';
-import loadMore from '../../layouts/loadMore';
-import card from '../components/card';
 import * as deviceApi from '@/api/device';
 export default {
   data() {
@@ -55,6 +57,49 @@ export default {
         '../../static/banner1.png',
         '../../static/banner2.png'
       ],
+      swiperHotList:[
+        {
+          title:'111111111111111111111111111111111111111111111',
+          date:'06/11'
+        },{
+          title:'2222222222',
+          date:'06/12'
+        },{
+          title:'3333333333333',
+          date:'06/13'
+        },
+      ],
+      cardList:[{
+        name:'小暑品江鲜',
+        sub:'活动详情',
+        pic:'',
+        url:''
+      },{
+        name:'江鲜券',
+        sub:'等你来抢',
+        pic:'',
+        url:''
+      },{
+        name:'江鲜新闻',
+        sub:'抢先收看',
+        pic:'',
+        url:''
+      },{
+        name:'邮乐购',
+        sub:'农产品尝鲜',
+        pic:'',
+        url:''
+      },{
+        name:'江鲜地图',
+        sub:'一键导航',
+        pic:'',
+        url:''
+      },{
+        name:'江鲜大赛',
+        sub:'创意烹饪',
+        pic:'',
+        url:''
+      }],
       deviceList: [],
       loading: true,
       isMoreLoading: false,
@@ -113,52 +158,11 @@ export default {
         }
       })
     },
-    loadMore() {
-      this.isMoreLoading = true
-      this.page++
-      const params = {
-        page: this.page,
-        size: this.size,
-        keyword: this.keyword
-      }
-      deviceApi.getDeviceList(params).then(res => {
-        console.log('设备列表更多接口', res);
-        if (res[1].statusCode === 200) {
-          const more = res[1].data.content.map(item => {
-            return {
-              pk: item.pk,
-              name: item.name,
-              devId: item.devId,
-              online: item.online ? '在线' : '离线',
-              product: this.productFilter(item),
-              deviceType: this.deviceTypeFilter(item.deviceType)
-            }
-          })
-          if (!!more.length) {
-            this.deviceList = this.deviceList.concat(more)
-          } else uni.showToast({ title: '暂无更多记录', icon: 'none' })
-          this.isMoreLoading = false
-          console.log('more', more);
-          console.log(this.deviceList);
-        }
-      })
-    },
-    productFilter(item) {
-      return this.productList.find(product => {
-        return product.pk === item.pk
-      })['name']
-    },
-    deviceTypeFilter(type) {
-      return this.deviceTypeList.find(item => {
-        return item.value === type
-      })['typeName']
-    }
+   
   },
   components: {
     tabBar,
-    noData,
-    loadMore,
-    card
+    noData
   }
 }
 </script>
@@ -171,31 +175,110 @@ export default {
   overflow: hidden;
   .swiper {
 		height: 30vh;
-    width: 100%;
+    width: 95.6%;
+    margin-left: 2.2%;
+    border-radius: 10rpx;
+    box-shadow: 0rpx 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
     .swiper-item {
       width: 100%;
+      border-radius: 10rpx;
       height: 100%;
       background-position: center;
       background-size: cover;
       .swiper-pic {
+        border-radius: 10rpx;
         width: 100%;
         height: 100%;
       }
     }
 	}
-  .search-wrap {
-    height: 10vh;
-    padding: 30px;
-    .search-title {
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 23rpx;
-      padding: 0 8px;
+  .jiangxian-hot{
+    width: 95.6%;
+    margin-left: 2.2%;
+    background: linear-gradient(0deg, #DDEBE1, #EAF6EE);
+    box-shadow: 0px 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
+    border-radius: 10px;
+    height: 107rpx;
+    display: flex;
+    align-items: center;
+    margin-top: 45rpx;
+    .left{
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin-left: 40rpx;
+      flex: 0 0 102rpx;
+      // border-right: 1px solid #030000;;
+      .hot{
+        font-size: 37rpx;
+        font-weight: bold;
+        color: #010101;
+        // line-height: 81rpx;
+      }
+      .jx{
+        font-size: 22rpx;
+        font-weight: 400;
+      }
+    }
+    .center{
+      width: 1rpx;
+      height: 50rpx;
+      background-color: #030000;
+      margin: 0 17rpx;
+    }
+    .right {
+      flex: 1;
+      .swiper-hot{
+        height: 107rpx;
+      }
+      .swiper-hot-item{
+        display: flex;
+        height: 107rpx;
+        align-items: center;
+        justify-content: flex-start;
+      }
+      .hot-title{
+        flex:0 0 380rpx;
+        overflow: hidden;
+        text-overflow:ellipsis;
+        white-space: nowrap;
+      }
+      .hot-date{
+        padding: 0 24rpx;
+        flex: 0 0 90rpx;
+      }
     }
   }
-  .content-wrap {
-    padding: 0 38px;
-    margin-bottom: 30px;
+  .main-menu{
+    display: flex;
+    flex-wrap: wrap;
+    margin-left: -7rpx;
+    margin-bottom:20rpx;
+      margin-top: 27rpx;
+    .card{
+      width: 346rpx;
+      margin-left: 24rpx;
+      height: 263rpx;
+      background: #EDEDED;
+      box-shadow: 0px -4rpx 11rpx 0rpx rgba(124, 124, 124, 0.31);
+      border-radius: 10rpx;
+      margin-top: 26rpx;
+      .main-name{
+        font-size: 33rpx;
+        font-weight: bold;
+        color: #000000;
+        margin-left: 40rpx;
+margin-top: 53rpx;
+      }
+      .sub-name{
+        font-size: 25rpx;
+font-family: Microsoft YaHei;
+font-weight: bold;
+margin-top: 11rpx;
+        margin-left: 40rpx;
+color: #666666;
+      }
+    }
   }
 }
 </style>
