@@ -32,7 +32,8 @@
         v-for="(item, index) in cardList"
         :key="index"
         @click="Goto(item.url)"
-      >
+      > 
+        <image class="menu-img" :src="item.pic" mode="" />
         <view class="main-name">{{item.name}}</view>
         <view class="sub-name">{{item.sub}}</view>
         
@@ -55,50 +56,49 @@ export default {
       interval: 2000,
       duration: 500,
       swiperList: [
-        '../../static/banner1.png',
-        '../../static/banner2.png'
+        '../../static/newsheader.png'
       ],
       swiperHotList:[
         {
-          title:'111111111111111111111111111111111111111111111',
+          title:'当江鲜“遇上”马拉松和音乐会',
           date:'06/11'
         },{
-          title:'2222222222',
+          title:'当江鲜“遇上”马拉松和音乐会',
           date:'06/12'
         },{
-          title:'3333333333333',
+          title:'当江鲜“遇上”马拉松和音乐会',
           date:'06/13'
         },
       ],
       cardList:[{
         name:'小暑品江鲜',
         sub:'活动详情',
-        pic:'',
+        pic:'../../static/main1.png',
         url:''
       },{
         name:'江鲜券',
         sub:'等你来抢',
-        pic:'',
-        url:''
+        pic:'../../static/main2.png',
+        url:'/pages/xiaofq/index'
       },{
         name:'江鲜新闻',
         sub:'抢先收看',
-        pic:'',
-        url:''
+        pic:'../../static/main3.png',
+        url:'/pages/news/index'
       },{
         name:'邮乐购',
         sub:'农产品尝鲜',
-        pic:'',
+        pic:'../../static/main4.png',
         url:''
       },{
         name:'江鲜地图',
         sub:'一键导航',
-        pic:'',
+        pic:'../../static/main5.png',
         url:'/pages/map/index'
       },{
         name:'江鲜大赛',
         sub:'创意烹饪',
-        pic:'',
+        pic:'../../static/main6.png',
         url:''
       }],
       deviceList: [],
@@ -199,15 +199,17 @@ export default {
     }
 	}
   .jiangxian-hot{
-    width: 95.6%;
-    margin-left: 2.2%;
-    background: linear-gradient(0deg, #DDEBE1, #EAF6EE);
-    box-shadow: 0px 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
-    border-radius: 10px;
-    height: 107rpx;
+    width:735rpx;
+    margin-left:7.5rpx;
+    // background: linear-gradient(0deg, #DDEBE1, #EAF6EE);
+    background:url("../../static/header1.png");
+    background-size: 735rpx 126rpx;
+    // box-shadow: 0px 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
+    // border-radius: 10px;
+    height: 128rpx;
     display: flex;
     align-items: center;
-    margin-top: 45rpx;
+    margin-top: 25rpx;
     .left{
       display: flex;
       flex-direction: column;
@@ -244,12 +246,14 @@ export default {
         justify-content: flex-start;
       }
       .hot-title{
-        flex:0 0 380rpx;
+        font-size: 22rpx;
+        flex:0 0 430rpx;
         overflow: hidden;
         text-overflow:ellipsis;
         white-space: nowrap;
       }
       .hot-date{
+        font-size: 22rpx;
         padding: 0 24rpx;
         flex: 0 0 90rpx;
       }
@@ -258,17 +262,25 @@ export default {
   .main-menu{
     display: flex;
     flex-wrap: wrap;
-    margin-left: -7rpx;
+    // margin-left: -7rpx;
     margin-bottom:20rpx;
-      margin-top: 27rpx;
+    margin-top: 20rpx;
     .card{
-      width: 346rpx;
-      margin-left: 24rpx;
-      height: 263rpx;
-      background: #EDEDED;
-      box-shadow: 0px -4rpx 11rpx 0rpx rgba(124, 124, 124, 0.31);
-      border-radius: 10rpx;
-      margin-top: 26rpx;
+      width: 365rpx;
+      height: 283rpx;
+      margin-left: 8rpx;
+      position: relative;
+      .menu-img{
+        width: 368rpx ;
+        height: 284rpx;
+        z-index: -1;
+        position: absolute;
+      }
+      // background-size: 365rpx 283rpx;
+      // background: #EDEDED;
+      // box-shadow: 0px -4rpx 11rpx 0rpx rgba(124, 124, 124, 0.31);
+      // border-radius: 10rpx;
+      margin-top: 6rpx;
       .main-name{
         font-size: 33rpx;
         font-weight: bold;

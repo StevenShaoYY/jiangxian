@@ -7,7 +7,7 @@
       @click="tabChange(item, index)"
     >
       <img
-        class="item-icon"
+        :class="'item-icon'+index"
         :src="isSelected(index) ? item.iconSelected : item.icon"
       />
       <view 
@@ -29,15 +29,15 @@ export default {
       tabBarList: [
         {
           name: '江鲜大会',
-          icon: '../static/icon_home.svg',
-          iconSelected: '../static/icon_home_selected.svg',
+          icon: '../static/home-select.png',
+          iconSelected: '../static/home-select.png',
           pageName: 'home',
           pageUrl: '/pages/home/home'
         },
         {
-          name: '我的',
-          icon: '../static/icon_user.svg',
-          iconSelected: '../static/icon_user_selected.svg',
+          name: '我  的',
+          icon: '../static/my-unselect.png',
+          iconSelected: '../static/my-unselect.png',
           pageName: 'user',
           pageUrl: '/pages/user/user'
         },
@@ -86,12 +86,16 @@ export default {
     align-items: center;
     flex-direction: column;
     margin: 0 auto;
-    .item-icon {
-      width: 3vh;
-      height: 3vh;
+    .item-icon0 {
+      width: 183rpx;
+      height: 69rpx;
+    }
+    .item-icon1 {
+      width: 122rpx;
+      height: 87rpx;
     }
     .item-name {
-      margin-top: 4rpx;
+      margin-top: 14rpx;
       font-size: 22rpx;
       text-align: center;
       color: #DBDBDB;

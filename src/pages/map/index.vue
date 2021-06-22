@@ -1,26 +1,36 @@
 <template>
-  <view class="home-container">
-    <view class="swiper-wrap">
-      <map name="" style="width:100%;height:400rpx" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
+  <view class="map-container">
+    <view class="map-wrap">
+      <map name="" style="width:100%;height:436rpx;" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
     </view>
-  <view @click="gotoNavigate">打开导航</view>
- 
+    <image class="back-img" src="../../static/liuchen2.png" mode="" />
+    <view @click="gotoNavigate" class="daohang">点击跳转到导航页面</view>
+    <view @click="gotoNavigate" class="title">地址/</view>
+    <view @click="gotoNavigate" class="add">杭州市富阳区东舒线与汤横线交叉路口</view>
+    <view @click="gotoNavigate" class="add">往北约110米</view>
+    <view @click="gotoNavigate" class="title">时间/</view>
+    <view @click="gotoNavigate" class="add">2021年7月初</view>
+    <image class="map-img" src="../../static/map-title.png" mode="" />
+    <!-- <view class="tab-view">
+      <tabBar :pageName.sync="pageName" />
+    </view> -->
   </view>
 </template>
 
 <script>
 import { mapGetters } from 'vuex';
+import tabBar from '../../layouts/tabBar';
 
 import * as deviceApi from '@/api/device';
 export default {
   data() {
     return {
-      latitude:39.909,
-      longitude:116.39742,
+      latitude:29.890874,
+      longitude:119.830751,
       covers:[{
-        latitude:39.909,
-        longitude:116.39742,
-        iconPath:'../../static/icon_error.png'
+        latitude:29.890874,
+        longitude:119.830751,
+        iconPath:'../../static/location.png'
       }]
     }
   },
@@ -32,139 +42,83 @@ export default {
   },
   methods: {
     gotoNavigate(){
-      uni.getLocation({
-        type:'gcj02',
-        success:function(res) {
-          const la = res.latitude
-          const lo = res.longitude
+      // uni.getLocation({
+      //   type:'gcj02',
+      //   success:function(res) {
+      //     const la = res.latitude
+      //     const lo = res.longitude
           uni.openLocation({
-            latitude:la,
-            longitude:lo,
+            latitude:29.890874,
+            longitude:119.830751,
             success:()=>{
               console.log('success')
             }
           })
-        }
-      })
+      //   }
+      // })
     }
   },
   components: {
+    tabBar
   }
 }
 </script>
 
 <style lang="scss">
-.home-container {
-  // width: 690rpx;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  .swiper {
-		height: 30vh;
-    width: 95.6%;
-    margin-left: 2.2%;
-    border-radius: 10rpx;
-    box-shadow: 0rpx 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
-    .swiper-item {
-      width: 100%;
-      border-radius: 10rpx;
-      height: 100%;
-      background-position: center;
-      background-size: cover;
-      .swiper-pic {
-        border-radius: 10rpx;
-        width: 100%;
-        height: 100%;
-      }
-    }
-	}
-  .jiangxian-hot{
-    width: 95.6%;
-    margin-left: 2.2%;
-    background: linear-gradient(0deg, #DDEBE1, #EAF6EE);
-    box-shadow: 0px 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
-    border-radius: 10px;
-    height: 107rpx;
-    display: flex;
-    align-items: center;
-    margin-top: 45rpx;
-    .left{
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      margin-left: 40rpx;
-      flex: 0 0 102rpx;
-      // border-right: 1px solid #030000;;
-      .hot{
-        font-size: 37rpx;
-        font-weight: bold;
-        color: #010101;
-        // line-height: 81rpx;
-      }
-      .jx{
-        font-size: 22rpx;
-        font-weight: 400;
-      }
-    }
-    .center{
-      width: 1rpx;
-      height: 50rpx;
-      background-color: #030000;
-      margin: 0 17rpx;
-    }
-    .right {
-      flex: 1;
-      .swiper-hot{
-        height: 107rpx;
-      }
-      .swiper-hot-item{
-        display: flex;
-        height: 107rpx;
-        align-items: center;
-        justify-content: flex-start;
-      }
-      .hot-title{
-        flex:0 0 380rpx;
-        overflow: hidden;
-        text-overflow:ellipsis;
-        white-space: nowrap;
-      }
-      .hot-date{
-        padding: 0 24rpx;
-        flex: 0 0 90rpx;
-      }
-    }
+.map-container {
+  width: 750rpx;
+  // height: 1184rpx;
+  // background:url("../../static/liuchen3.png");
+  // background-size: 750rpx 1184rpx;
+  // display: flex;
+  // flex-direction: column;
+  // overflow: hidden;
+  .back-img{
+    width: 750rpx;
+    height: 100%;
+    z-index: -1;
+    position: absolute;
+    top: 0;
+    left: 0;
   }
-  .main-menu{
-    display: flex;
-    flex-wrap: wrap;
-    margin-left: -7rpx;
-    margin-bottom:20rpx;
-      margin-top: 27rpx;
-    .card{
-      width: 346rpx;
-      margin-left: 24rpx;
-      height: 263rpx;
-      background: #EDEDED;
-      box-shadow: 0px -4rpx 11rpx 0rpx rgba(124, 124, 124, 0.31);
-      border-radius: 10rpx;
-      margin-top: 26rpx;
-      .main-name{
-        font-size: 33rpx;
-        font-weight: bold;
-        color: #000000;
-        margin-left: 40rpx;
-margin-top: 53rpx;
-      }
-      .sub-name{
-        font-size: 25rpx;
-font-family: Microsoft YaHei;
-font-weight: bold;
-margin-top: 11rpx;
-        margin-left: 40rpx;
-color: #666666;
-      }
-    }
+  .map-wrap {
+    width: 715rpx;
+    margin-left: 17.5rpx;
+    height: 436rpx;
+    margin-top: 20rpx;
+    box-shadow: 0px -4rpx 11rpx 0px rgba(124, 124, 124, 0.31);
+  }
+  .daohang{
+    font-size: 24rpx;    
+    font-weight: 400;
+    color: #666666;
+    text-align: center;
+    margin-top: 19rpx;
+    margin-bottom: 112rpx;
+  }
+  .title{
+    font-size: 34rpx;
+    text-align: center;
+    font-weight: bold;
+    margin-top: 56rpx;
+    color: #000000;
+  }
+  .add{
+    font-size: 29rpx;
+    font-weight: bold;
+    text-align: center;
+    margin-top: 8rpx;
+    color: #000000;
+  }
+  .map-img{
+    width:543rpx;
+    margin-top: 87rpx;
+    margin-left: 103.5rpx;
+    height: 93rpx;
+  }
+  .tab-view{
+    width: 100%;
+    height: 8vh;
   }
 }
 </style>

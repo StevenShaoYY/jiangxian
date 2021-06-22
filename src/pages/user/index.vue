@@ -5,21 +5,9 @@
       <view class="user-name">{{ userInfo.userName || '点击登录' }}</view>
     </view>
     <view class="info-bar">
-      <view class="info-bar-l">设备数量</view>
+      <view class="info-bar-l">我的消费券</view>
       <view class="info-bar-r" v-if="isLogin" style="color:#1879FF">{{ deviceNum }}</view>
       <view class="info-bar-r" v-else style="color:#999">登录后查看</view>
-    </view>
-    <view class="info-bar">
-      <view class="info-bar-l">用户类型</view>
-      <view class="info-bar-r">{{ userInfo.userType || '' }}</view>
-    </view>
-    <view class="info-bar">
-      <view class="info-bar-l">手机号</view>
-      <view class="info-bar-r">{{ userInfo.mobile || '' }}</view>
-    </view>
-    <view class="info-bar">
-      <view class="info-bar-l">邮箱</view>
-      <view class="info-bar-r">{{ userInfo.email || '' }}</view>
     </view>
     <button v-if="isLogin" class="log-out-btn" @click="logout">退出登录</button>
   </view>

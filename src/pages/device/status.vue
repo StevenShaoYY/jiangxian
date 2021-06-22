@@ -33,22 +33,7 @@ export default {
       messageId: '',
       loading: false,
       statusList: [
-        {
-          url: require('../../static/icon_ok.png'),
-          description: '发送成功'
-        },
-        {
-          url: require('../../static/icon_wait.png'),
-          description: '等待中...'
-        },
-        {
-          url: require('../../static/icon_error.png'),
-          description: '发送失败'
-        },
-        {
-          url: require('../../static/icon_closed.png'),
-          description: '网络错误，请重试'
-        },
+        
       ]
     }
   },
