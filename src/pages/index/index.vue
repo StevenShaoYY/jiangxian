@@ -6,9 +6,8 @@
       @scrolltolower="scrollRefresh"
     >
       <home v-if="pageName === 'home'" ref="home" />
-      <device v-if="pageName === 'device'" ref="device" />
+      
       <user v-if="pageName === 'user'" />
-      <detail v-if="pageName === 'detail'" />
     </scroll-view>
     <view class="tab-view">
       <tabBar :pageName.sync="pageName" />

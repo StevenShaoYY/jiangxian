@@ -31,6 +31,7 @@
         class="card"
         v-for="(item, index) in cardList"
         :key="index"
+        @click="Goto(item.url)"
       >
         <view class="main-name">{{item.name}}</view>
         <view class="sub-name">{{item.sub}}</view>
@@ -93,7 +94,7 @@ export default {
         name:'江鲜地图',
         sub:'一键导航',
         pic:'',
-        url:''
+        url:'/pages/map/index'
       },{
         name:'江鲜大赛',
         sub:'创意烹饪',
@@ -137,6 +138,11 @@ export default {
           type: `${i % 2 === 0 ? '普通' : '终端'}设备`
         })
       }
+    },
+    Goto(pageUrl){
+      uni.navigateTo({
+        url:pageUrl
+      })
     },
     getDeviceList(params) {
       this.loading = true

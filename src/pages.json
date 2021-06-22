@@ -30,6 +30,12 @@
 			"style": {
 				"navigationBarTitleText": "指令下发详情"
 			}
+		},
+	{
+			"path": "pages/map/index",
+			"style": {
+				"navigationBarTitleText": "江鲜地图"
+			}
 		}
 	],
 	"globalStyle": {
