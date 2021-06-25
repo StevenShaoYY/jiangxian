@@ -48,6 +48,24 @@
 			"style": {
 				"navigationBarTitleText": "江鲜新闻"
 			}
+		},
+		{
+			"path": "pages/game/index",
+			"style": {
+				"navigationBarTitleText": "江鲜大赛"
+			}
+		},
+		{
+			"path": "pages/date/index",
+			"style": {
+				"navigationBarTitleText": "小暑品江鲜"
+			}
+		},
+		{
+			"path": "pages/shop/index",
+			"style": {
+				"navigationBarTitleText": "邮乐购"
+			}
 		}
 	],
 	"globalStyle": {

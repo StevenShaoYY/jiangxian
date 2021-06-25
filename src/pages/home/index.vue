@@ -1,7 +1,7 @@
 <template>
   <view class="home-container">
     <view class="swiper-wrap">
-			<swiper class="swiper" circular :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
+			<swiper class="swiper" circular indicator-color="#CECECE" indicator-active-color="#ffffff" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="(pic, index) in swiperList" :key="index">
 					<view class="swiper-item">
             <img class="swiper-pic" :src="pic" />
@@ -74,7 +74,7 @@ export default {
         name:'小暑品江鲜',
         sub:'活动详情',
         pic:'../../static/main1.png',
-        url:''
+        url:'/pages/date/index'
       },{
         name:'江鲜券',
         sub:'等你来抢',
@@ -89,7 +89,7 @@ export default {
         name:'邮乐购',
         sub:'农产品尝鲜',
         pic:'../../static/main4.png',
-        url:''
+        url:'/pages/shop/index'
       },{
         name:'江鲜地图',
         sub:'一键导航',
@@ -99,7 +99,7 @@ export default {
         name:'江鲜大赛',
         sub:'创意烹饪',
         pic:'../../static/main6.png',
-        url:''
+        url:'/pages/game/index'
       }],
       deviceList: [],
       loading: true,
@@ -263,7 +263,7 @@ export default {
     display: flex;
     flex-wrap: wrap;
     // margin-left: -7rpx;
-    margin-bottom:20rpx;
+    margin-bottom:50rpx;
     margin-top: 20rpx;
     .card{
       width: 365rpx;
@@ -282,17 +282,17 @@ export default {
       // border-radius: 10rpx;
       margin-top: 6rpx;
       .main-name{
-        font-size: 33rpx;
+        font-size: 35rpx;
         font-weight: bold;
         color: #000000;
         margin-left: 40rpx;
 margin-top: 53rpx;
       }
       .sub-name{
-        font-size: 25rpx;
+        font-size: 27rpx;
 font-family: Microsoft YaHei;
 font-weight: bold;
-margin-top: 11rpx;
+margin-top: 1rpx;
         margin-left: 40rpx;
 color: #666666;
       }

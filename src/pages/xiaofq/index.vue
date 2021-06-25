@@ -4,7 +4,7 @@
     
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
-    <view class="btn">立即领取</view>
+    <view class="btn" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}" @click="getXiaofq">立即领取</view>
     <view class="fenge"></view>
     <view class="word2">
       用户领取规则：</view>
@@ -24,6 +24,7 @@ export default {
     return {
       latitude:29.890874,
       longitude:119.830751,
+      hasGet:false,
       covers:[{
         latitude:29.890874,
         longitude:119.830751,
@@ -38,21 +39,8 @@ export default {
     // this.setDeviceList()
   },
   methods: {
-    gotoNavigate(){
-      // uni.getLocation({
-      //   type:'gcj02',
-      //   success:function(res) {
-      //     const la = res.latitude
-      //     const lo = res.longitude
-          uni.openLocation({
-            latitude:29.890874,
-            longitude:119.830751,
-            success:()=>{
-              console.log('success')
-            }
-          })
-      //   }
-      // })
+    getXiaofq(){
+      this.hasGet = true
     }
   },
   components: {
@@ -95,7 +83,7 @@ color: #fff;
 font-size: 25rpx;
 font-family: Microsoft YaHei;
 font-weight: 400;
-background: linear-gradient(0deg, #BE6569, #D5B8AF);
+//background: linear-gradient(0deg, #BE6569, #D5B8AF);
 box-shadow: 0px 4rpx 5rpx 0px rgba(124, 124, 124, 0.31);
 border-radius: 30rpx;
   }

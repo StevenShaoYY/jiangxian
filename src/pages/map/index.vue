@@ -3,7 +3,7 @@
     <view class="map-wrap">
       <map name="" style="width:100%;height:436rpx;" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
     </view>
-    <image class="back-img" src="../../static/liuchen2.png" mode="" />
+    <image class="back-img" src="../../static/mapback.png" mode="" />
     <view @click="gotoNavigate" class="daohang">点击跳转到导航页面</view>
     <view @click="gotoNavigate" class="title">地址/</view>
     <view @click="gotoNavigate" class="add">杭州市富阳区东舒线与汤横线交叉路口</view>
@@ -25,11 +25,11 @@ import * as deviceApi from '@/api/device';
 export default {
   data() {
     return {
-      latitude:29.890874,
-      longitude:119.830751,
+      latitude:29.887870,
+      longitude:119.822332,
       covers:[{
-        latitude:29.890874,
-        longitude:119.830751,
+        latitude:29.887870,
+        longitude:119.822332,
         iconPath:'../../static/location.png'
       }]
     }
@@ -48,8 +48,8 @@ export default {
       //     const la = res.latitude
       //     const lo = res.longitude
           uni.openLocation({
-            latitude:29.890874,
-            longitude:119.830751,
+            latitude:29.887870,
+            longitude:119.822332,
             success:()=>{
               console.log('success')
             }

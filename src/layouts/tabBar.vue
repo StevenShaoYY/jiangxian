@@ -29,7 +29,7 @@ export default {
       tabBarList: [
         {
           name: '江鲜大会',
-          icon: '../static/home-select.png',
+          icon: '../static/home-unselect.png',
           iconSelected: '../static/home-select.png',
           pageName: 'home',
           pageUrl: '/pages/home/home'
@@ -37,7 +37,7 @@ export default {
         {
           name: '我  的',
           icon: '../static/my-unselect.png',
-          iconSelected: '../static/my-unselect.png',
+          iconSelected: '../static/my-select.png',
           pageName: 'user',
           pageUrl: '/pages/user/user'
         },
