@@ -1,8 +1,11 @@
 <template>
   <view class="user-container">
     <view class="avatar-bar" @click="toLogin">
-      <view class="user-avatar"></view>
-      <view class="user-name">{{ userInfo.userName || '点击登录' }}</view>
+      <view v-if="!isLogin" class="user-avatar"></view>
+      <image v-else class="user-avatar" :src="userInfo.avatarUrl"></image>
+      <!-- <view class="user-name">{{ userInfo.userName || '点击登录' }}</view> -->
+      <button class="user-name" open-type="getUserInfo" withCredentials="true">{{ userInfo.nickName || '点击登录' }}</button>
+
     </view>
     <view class="info-bar">
       <view class="info-bar-l">我的消费券</view>
@@ -19,10 +22,30 @@ import {login} from '@/api/device';
 
 export default {
   computed: {
-    ...mapGetters(['userInfo', 'deviceNum', 'isLogin'])
+    // ...mapGetters(['userInfo', 'deviceNum', 'isLogin'])
+  },
+  data() {
+    return {
+      isLogin:false,
+      userInfo:{}
+    }
+  },
+  created(){
+    let opind = uni.getStorageSync('openId')
+    if(opind&&opind!=='') {
+      if(uni.getStorageSync('userInfo')) {
+        this.isLogin = true
+        this.userInfo = uni.getStorageSync('userInfo')
+      }
+    }
   },
   methods: {
-    ...mapActions(['logout']),
+    logout(){
+      uni.removeStorageSync('userInfo');
+      uni.removeStorageSync('openId');
+        this.isLogin = false
+        this.userInfo = {}
+    },
     toLogin() {
       if (!this.isLogin) {
         uni.login({
@@ -31,13 +54,26 @@ export default {
             login({
               code:res.code
             }).then(res => {
-              console.log(res)
+              console.log(111,res)
+              uni.setStorageSync('openId', res.result.id);
+              uni.getUserInfo({
+                provider:"weixin",
+                success:(userInfo)=> {
+                  console.log(userInfo)
+                  this.isLogin = true
+                  this.userInfo = userInfo.userInfo
+                  uni.setStorageSync('userInfo', this.userInfo);
+                },
+                fail:(e) => {
+                  console.log(e)
+                }
+              })
             })
-
           },
           fail: () => {},
           complete: () => {}
         })
+        
       }
     }
   }
@@ -52,7 +88,7 @@ export default {
   .avatar-bar {
     width: 100%;
     height: 15vh;
-    border-bottom: 1px solid #F6F7F8;
+    border-bottom: 1px solid #d0d2d5;
     display: flex;
     margin-top: 5vh;
     .user-avatar {
@@ -66,13 +102,15 @@ export default {
       font-size: 18px;
       line-height: 60px;
       margin-left: 12px;
+      background-color: #fff;
     }
+    button::after{ border: none; }
   }
   .info-bar {
     width: 100%;
     height: 8vh;
     margin-top: 5px;
-    border-bottom: 1px solid #F6F7F8;
+    border-bottom: 1px solid #d0d2d5;
     display: flex;
     line-height: 8vh;
     font-size: 14px;
@@ -84,9 +122,17 @@ export default {
     }
   }
   .log-out-btn {
-    width: calc(100% - 76px);
+    width: 100%;
     position: absolute;
-    bottom: 5vh;
+    bottom: 10rpx;
+    left: 0;
+    height: 110rpx;
+    color: #BE6569;
+    background-color: #fff;
   }
+  .log-out-btn::after{ border-left: none;
+  border-top:1px solid #d0d2d5;
+  border-right: none;
+  border-bottom: 1px solid #d0d2d5;  }
 }
 </style>

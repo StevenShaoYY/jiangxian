@@ -40,7 +40,7 @@ export default {
         })
       } else {
         uni.setNavigationBarTitle({
-          title: 'DMP'
+          title: '江鲜大会'
         })
       }
     }

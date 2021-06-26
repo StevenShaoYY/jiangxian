@@ -50,9 +50,17 @@ export default {
   },
   methods: {
     goToDetail(url) {
-      uni.navigateTo({
-        url:`/pages/newsdetail/index?url=${url}`,
+      // uni.navigateToMiniProgram({
+      //   appId:'wxb10c47503e8c8e01',
+      //   path:'pages/normal/index?atype=0&id=20201223A07D5B00'
+      // })
+      uni.navigateToMiniProgram({
+        appId:'wxbbd95efd68bc8a5e',
+        path:'pages/webView?pageUrl=https%3A%2F%2Fm.ule.com%2Fmitem%2Fstore%2Findex%2F10218.html'
       })
+      // uni.navigateTo({
+      //   url:`/pages/newsdetail/index?url=${url}`,
+      // })
     }
   },
   components: {
