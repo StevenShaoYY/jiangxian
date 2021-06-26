@@ -2,14 +2,14 @@
   <view class="map-container">
     <view class="gamecard" v-for="(item, index) of dishList" :key="index">
       <view class="top">
-        <image :src="item.pic" class="topleft" alt="">
+        <image :src="item.picUrl" class="topleft" alt="">
         <view class="topright">
-          <image :src="item.namepic" class="right-pic" alt="">
+          <image :src="item.titleUrl" class="right-pic" alt="">
         </view>
         
       </view>
       <view class="bottom">
-        {{item.mask}}
+        {{item.content}}
       </view>
     </view>
   </view>
@@ -19,30 +19,11 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 
-import * as deviceApi from '@/api/device';
+import {getActive} from '@/api/device';
 export default {
   data() {
     return {
       dishList:[
-        {
-          namepic:'../../static/main1.png',
-          pic:'../../static/main1.png',
-          mask:'龙井虾仁将茶饮与虾仁融合，整体清新软嫩，虾仁玉白，鲜嫩，芽叶清香，色泽雅丽，虾中有茶香，茶中有虾鲜，食后清口开胃，回味无穷。'
-        },
-        {
-          namepic:'../../static/main1.png',
-          pic:'../../static/main1.png',
-          mask:'龙井虾仁将茶饮与虾仁融合，整体清新软嫩，虾仁玉白，鲜嫩，芽叶清香，色泽雅丽，虾中有茶香，茶中有虾鲜，食后清口开胃，回味无穷。'
-        },
-        {
-          namepic:'../../static/main1.png',
-          pic:'../../static/main1.png',
-          mask:'龙井虾仁将茶饮与虾仁融合，整体清新软嫩，虾仁玉白，鲜嫩，芽叶清香，色泽雅丽，虾中有茶香，茶中有虾鲜，食后清口开胃，回味无穷。'
-        },{
-          namepic:'../../static/main1.png',
-          pic:'../../static/main1.png',
-          mask:'龙井虾仁将茶饮与虾仁融合，整体清新软嫩，虾仁玉白，鲜嫩，芽叶清香，色泽雅丽，虾中有茶香，茶中有虾鲜，食后清口开胃，回味无穷。'
-        }
       ]
     }
   },
@@ -51,6 +32,19 @@ export default {
   },
   created() {
     // this.setDeviceList()
+    getActive({
+      type:2
+    }).then(res => {
+      this.dishList = res.result
+    })
+  },
+  onPullDownRefresh(){
+    getActive({
+      type:2
+    }).then(res => {
+      this.dishList = res.result
+      uni.stopPullDownRefresh()
+    })
   },
   methods: {
     getXiaofq(){

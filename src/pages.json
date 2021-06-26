@@ -6,31 +6,7 @@
 				"navigationBarTitleText": "江鲜大会"
 			}
 		},
-    {
-			"path": "pages/login/index",
-			"style": {
-				"navigationBarTitleText": "登录"
-			}
-		},
-    {
-			"path": "pages/device/detail",
-			"style": {
-				"navigationBarTitleText": "设备详情",
-        "enablePullDownRefresh": true
-			}
-		},
-    {
-			"path": "pages/device/instructionList",
-			"style": {
-				"navigationBarTitleText": "历史指令列表"
-			}
-		},
-    {
-			"path": "pages/device/status",
-			"style": {
-				"navigationBarTitleText": "指令下发详情"
-			}
-		},
+  
 		{
 			"path": "pages/map/index",
 			"style": {
@@ -40,11 +16,23 @@
 		{
 			"path": "pages/xiaofq/index",
 			"style": {
-				"navigationBarTitleText": "江鲜券"
+				"navigationBarTitleText": "江鲜券",
+				"mp-weixin": {
+					"usingComponents": {
+						"send-coupon": "plugin://sendCoupon/send-coupon"
+					}
+				}
 			}
 		},
 		{
 			"path": "pages/news/index",
+			"style": {
+				"navigationBarTitleText": "江鲜新闻",
+				"enablePullDownRefresh":true
+			}
+		},
+		{
+			"path": "pages/newsdetail/index",
 			"style": {
 				"navigationBarTitleText": "江鲜新闻"
 			}
@@ -52,7 +40,8 @@
 		{
 			"path": "pages/game/index",
 			"style": {
-				"navigationBarTitleText": "江鲜大赛"
+				"navigationBarTitleText": "江鲜大赛",
+				"enablePullDownRefresh":true
 			}
 		},
 		{

@@ -5,8 +5,8 @@
     <view class="title">江鲜新闻<span class="hot">HOT</span></view>
     <view class="main-title">2021年江鲜大会</view>
     <view class="sub">在小暑这个节点，作为“富春江畔第一村”、“东流第一关”、“浙江省小城镇综合整治省级样板村”的东梓关结合富阳区“富春山居 味道山乡”的品牌活动......</view>
-    <view class="news" v-for="(item, index) of newsList" :key="index">
-      <image class="n-img" :src="item.pic" mode="" />
+    <view class="news" v-for="(item, index) of newsList" :key="index" @click="goToDetail(item.contentUrl)">
+      <image class="n-img" :src="item.coverUrl" mode="" />
       <view class="n-title">{{item.title}}</view>
     </view>
   </view>
@@ -16,51 +16,12 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 
-import * as deviceApi from '@/api/device';
+import {getNews} from '@/api/device';
 export default {
   data() {
     return {
       newsList:[
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        },
-        {
-          pic:'../../static/main5.png',
-          title:'12月18日，2020第三届富春江江鲜大会将如约而至',
-          url:''
-        }
+       
       ]
     }
   },
@@ -69,23 +30,29 @@ export default {
   },
   created() {
     // this.setDeviceList()
+     getNews({
+      currentPage:1,
+      pageSize:100,
+      type:1
+    }).then(res => {
+      this.newsList = res.result.content
+    })
+  },
+  onPullDownRefresh(){
+    getNews({
+      currentPage:1,
+      pageSize:100,
+      type:1
+    }).then(res => {
+      this.newsList = res.result.content
+      uni.stopPullDownRefresh()
+    })
   },
   methods: {
-    gotoNavigate(){
-      // uni.getLocation({
-      //   type:'gcj02',
-      //   success:function(res) {
-      //     const la = res.latitude
-      //     const lo = res.longitude
-          uni.openLocation({
-            latitude:29.890874,
-            longitude:119.830751,
-            success:()=>{
-              console.log('success')
-            }
-          })
-      //   }
-      // })
+    goToDetail(url) {
+      uni.navigateTo({
+        url:`/pages/newsdetail/index?url=${url}`,
+      })
     }
   },
   components: {

@@ -63,7 +63,13 @@
 				"desc":"你的位置信息将用于小程序位置接口的效果展示"
 			}
 		},
-		"usingComponents": true
+		"usingComponents": true,
+		"plugins": {
+			"sendCoupon": {
+				"version": "latest",
+				"provider": "wxf3f436ba9bd4be7b"
+			}
+		}
 	},
 	"mp-alipay" : {
         "usingComponents" : true
@@ -80,13 +86,10 @@
     "h5" : {
       "devServer" : {
           "proxy" : {
-              "/api" : {
-                  "target" : "http://172.22.10.102:80/api",
+              "/jiang" : {
+                  "target" : "https://jiangxian.nanjingyuanxin.com/",
                   "changeOrigin" : true,
-                  "secure" : false,
-                  "pathRewrite" : {
-                      "^/api" : ""
-                  }
+                  "secure" : false
               }
           }
       }

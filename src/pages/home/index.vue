@@ -4,7 +4,7 @@
 			<swiper class="swiper" circular indicator-color="#CECECE" indicator-active-color="#ffffff" :indicator-dots="indicatorDots" :autoplay="autoplay" :interval="interval" :duration="duration">
 				<swiper-item v-for="(pic, index) in swiperList" :key="index">
 					<view class="swiper-item">
-            <img class="swiper-pic" :src="pic" />
+            <img class="swiper-pic" :src="pic.coverUrl" />
           </view>
 				</swiper-item>
 			</swiper>
@@ -17,10 +17,10 @@
       <view class="center"></view>
       <view class="right">
         <swiper class="swiper-hot" circular :vertical="true"  :autoplay="autoplay" :interval="interval" :duration="duration">
-          <swiper-item v-for="(item, index) in swiperHotList" :key="index">
+          <swiper-item v-for="(item, index) in swiperHotList" :key="index" @click="goToDetail(item.contentUrl)">
             <view class="swiper-hot-item">
               <view class="hot-title">{{item.title}}</view>
-              <view class="hot-date">{{item.date}}</view>
+              <view class="hot-date">{{item.createTime | filterDate}}</view>
             </view>
           </swiper-item>
         </swiper>
@@ -46,7 +46,7 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 import noData from '../../layouts/noData';
-import * as deviceApi from '@/api/device';
+import {getNews} from '@/api/device';
 export default {
   data() {
     return {
@@ -55,21 +55,8 @@ export default {
       autoplay: true,
       interval: 2000,
       duration: 500,
-      swiperList: [
-        '../../static/newsheader.png'
-      ],
-      swiperHotList:[
-        {
-          title:'当江鲜“遇上”马拉松和音乐会',
-          date:'06/11'
-        },{
-          title:'当江鲜“遇上”马拉松和音乐会',
-          date:'06/12'
-        },{
-          title:'当江鲜“遇上”马拉松和音乐会',
-          date:'06/13'
-        },
-      ],
+      swiperList: [],
+      swiperHotList:[],
       cardList:[{
         name:'小暑品江鲜',
         sub:'活动详情',
@@ -109,62 +96,48 @@ export default {
       keyword: ''
     }
   },
+  filters: {
+    filterDate: function (value) {
+      if (!value) return ''
+      let temp = value.split(' ')
+      let temp2 = []
+      if(temp[0] && temp[0]!=='') {
+        temp2 = temp[0].split('-')
+      }
+      return temp2[1] +  '/' + temp2[2]
+    }
+  },
   computed: {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
   created() {
     // this.setDeviceList()
+    getNews({
+      currentPage:1,
+      pageSize:4,
+      type:1
+    }).then(res => {
+      this.swiperList = res.result.content
+    })
+    getNews({
+      currentPage:1,
+      pageSize:4,
+      type:2
+    }).then(res => {
+      this.swiperHotList = res.result.content
+    })
   },
   methods: {
-    search(e) {
-      this.keyword = e.value
-      const params = {
-        page: 1,
-        size: this.size,
-        keyword: this.keyword
-      }
-      this.getDeviceList(params)
-    },
-    clear() {
-      this.deviceList = []
-    },
-    setDeviceList() {
-      for(let i = 0; i < 5; i++) {
-        this.deviceList.push({
-          name: `开关${i + 1}`,
-          id: (Math.random() * 100).toString().replace('.', '').substr(0, 11),
-          status: '在线/离线',
-          product: '开关',
-          type: `${i % 2 === 0 ? '普通' : '终端'}设备`
-        })
-      }
-    },
     Goto(pageUrl){
       uni.navigateTo({
         url:pageUrl
       })
     },
-    getDeviceList(params) {
-      this.loading = true
-      this.isLogin && this.setDeviceList()
-      deviceApi.getDeviceList(params).then(res => {
-        console.log('设备列表接口', res);
-        if (res[1].statusCode === 200) {
-          this.deviceList = res[1].data.content.map(item => {
-            return {
-              pk: item.pk,
-              name: item.name,
-              devId: item.devId,
-              online: item.online ? '在线' : '离线',
-              product: this.productFilter(item),
-              deviceType: this.deviceTypeFilter(item.deviceType)
-            }
-          })
-          this.loading = false
-        }
+    goToDetail(url) {
+      uni.navigateTo({
+        url:`/pages/newsdetail/index?url=${url}`,
       })
-    },
-   
+    }
   },
   components: {
     tabBar,

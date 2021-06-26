@@ -18,9 +18,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import home from '../home/index';
-import device from '../device/index';
 import user from '../user/index';
-import detail from '../device/detail';
 import tabBar from '../../layouts/tabBar';
 export default {
   onLoad: function(option) {
@@ -75,9 +73,7 @@ export default {
   },
   components: {
     home,
-    device,
     user,
-    detail,
     tabBar
   }
 }

@@ -3,7 +3,7 @@ import { GlobalInterception } from './errCode';
 export default class Service {
   config = {
     // baseUrl: 'http://172.22.10.102:80',
-	  baseUrl: 'https://dmp.ictsoft.cn',   // 生产环境地址
+	  baseUrl: 'https://jiangxian.nanjingyuanxin.com/jiang',   // 生产环境地址
     timeout: 30000,
     header: {
       'content-type': 'application/json'
@@ -47,14 +47,15 @@ export default class Service {
         header: this.config.header,
       })
       .then(res => {
+        console.log(777,res)
         if (res[0] !== null) {
           uni.showToast({ title: '网络错误，请检查网络', icon: 'none' })
         } else if (res[1].statusCode === 200) {
-          resolve(res)
+          resolve(res[1].data)
         } else if (res[1].statusCode === 403) {
           uni.showToast({ title: '请先登录', icon: 'none' })
           setTimeout(() => {
-            uni.navigateTo({ url: '/pages/login/index' })
+            // uni.navigateTo({ url: '/pages/login/index' })
           }, 1000);
         } else {
           res[1].data.msg = GlobalInterception(res[1].data.code)

@@ -4,7 +4,19 @@
     
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
-    <view class="btn" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}" @click="getXiaofq">立即领取</view>
+    <send-coupon
+      @bindcustomevent="getcoupon"
+      :send_coupon_params="send_coupon_params"
+      :sign="sign"
+      :send_coupon_merchant="send_coupon_merchant"
+    >
+      <!-- 内部为自定义代码，按钮点击部分的代码写在这里 -->
+      <!-- [[以下为示例代码 -->
+      <!-- <view class="text">领取</view> -->
+      <view class="btn" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">立即领取</view>
+
+      <!-- 以上为示例代码 ]] -->
+    </send-coupon>
     <view class="fenge"></view>
     <view class="word2">
       用户领取规则：</view>
@@ -29,7 +41,13 @@ export default {
         latitude:29.890874,
         longitude:119.830751,
         iconPath:'../../static/location.png'
-      }]
+      }],
+      send_coupon_params:[{
+        "stock_id": "1209180000000032",
+        "out_request_no": "89560002019101000121"
+      }],
+      sign:'9A0A8659F005D6984697E2CA0A9CF3B79A0A8659F005D6984697E2CA0A9CF3B7',
+      send_coupon_merchant:'1611206957'
     }
   },
   computed: {
@@ -41,6 +59,10 @@ export default {
   methods: {
     getXiaofq(){
       this.hasGet = true
+    },
+    getcoupon(params) {
+      // 插件返回信息在params.detail
+      console.log('getcoupon', params)
     }
   },
   components: {

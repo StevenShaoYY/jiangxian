@@ -26,3 +26,8 @@ export const getMonitor = (params) => api.get(`/api/device/getSnapshot`, params)
 export const getHistory = (params) => api.get(`/api/device/getDevicePackage/${params.pk}/${params.devId}`, params)
 // 获取指令发送状态
 export const cloudSendMsgInfo = (params) => api.get(`/api/device/cloudSendMsgInfo/${params.messageId}`)
+
+// 活动
+export const getActive = (data) => api.post('/mini/party/query',data)
+export const getNews = (data) => api.post('/mini/news/query',data)
+export const login = (data) => api.post('/mini/user/login',data)

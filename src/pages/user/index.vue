@@ -15,6 +15,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
+import {login} from '@/api/device';
+
 export default {
   computed: {
     ...mapGetters(['userInfo', 'deviceNum', 'isLogin'])
@@ -23,8 +25,18 @@ export default {
     ...mapActions(['logout']),
     toLogin() {
       if (!this.isLogin) {
-        uni.reLaunch({
-          url: '/pages/login/index'
+        uni.login({
+          provider: '',
+          success: (res) => {
+            login({
+              code:res.code
+            }).then(res => {
+              console.log(res)
+            })
+
+          },
+          fail: () => {},
+          complete: () => {}
         })
       }
     }

@@ -12,14 +12,16 @@ import * as deviceApi from '@/api/device';
 export default {
   data() {
     return {
-      url:'https://m.ule.com/mitem/store/index/10218.html'
-      // url:'https://view.inews.qq.com/wxn2/20210626A064SC00?tbkt=I&pushid=2021062602&strategy=feature&openid=o04IBAH4UBoO2d_mHsHnOHi7ad9I&uid=&refer=wx_hot&ft=0'
+      // url:'https://m.ule.com/mitem/store/index/10218.html'
+      url:'https://view.inews.qq.com/wxn2/20210626A064SC00?tbkt=I&pushid=2021062602&strategy=feature&openid=o04IBAH4UBoO2d_mHsHnOHi7ad9I&uid=&refer=wx_hot&ft=0'
     }
   },
   computed: {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
-  created() {
+  onLoad(query) {
+    // console.log(query)
+    this.url = query
     // this.setDeviceList()
   },
   methods: {
