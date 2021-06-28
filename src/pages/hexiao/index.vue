@@ -59,7 +59,7 @@ export default {
             console.log(res)
             this.list.push({
               time:this.formatDateTime(new Date()),
-              msg:res.message
+              msg:res.message || res.result
             })
             console.log(this.list)
             uni.setStorageSync('hexiao', this.list);

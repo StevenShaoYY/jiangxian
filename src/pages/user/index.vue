@@ -113,9 +113,8 @@ export default {
       
     },
     gotoXiaofei(){
-      uni.navigateToMiniProgram({
-        appId:'wx654ce96a7324e76f',
-        path:'pages/hall?q=https%3A%2F%2Faction.weixin.qq.com%2Fmkthall%2Fmchhall%3Fhall_code%3DHDzfc3SWS6lzdS694Phkbg%26t%3DaZbcQqNm-vRguGGDuPFKW7exbjYlJ-yGI7M4fzOQDgM&scancode_time=1624792543'
+      uni.navigateTo({
+        url:`/pages/carddetail/index`,
       })
     },
     logout(){

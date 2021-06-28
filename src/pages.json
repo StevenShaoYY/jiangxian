@@ -61,7 +61,14 @@
 			"style": {
 				"navigationBarTitleText": "核销卡券"
 			}
+		},
+		{
+			"path": "pages/carddetail/index",
+			"style": {
+				"navigationBarTitleText": "我的消费券"
+			}
 		}
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
