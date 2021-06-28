@@ -51,7 +51,7 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 
-import {getXiaofeiquan,getTodayStatus, getMiniCouponListFromWx} from '@/api/device';
+import {getXiaofeiquan,getTodayStatus, getMiniCouponListFromWx,deleteQuan} from '@/api/device';
 export default {
   data() {
     return {
@@ -125,8 +125,8 @@ export default {
     deleteQuan(){
       console.log('删除删除删除删除删除')
       deleteQuan({
-        code:'',
-        stockId:''
+        code:'1210212723003549147257',
+        stockId:'1209180000000035'
       })
     }
   },
