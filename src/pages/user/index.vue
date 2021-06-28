@@ -8,9 +8,14 @@
 
     </view>
     <view class="info-bar">
-      <view class="info-bar-l">我的消费券</view>
+      <view class="info-bar-l" @click="gotoXiaofei">我的消费券</view>
       <view class="info-bar-r" v-if="isLogin" style="color:#1879FF">{{ deviceNum }}</view>
       <view class="info-bar-r" v-else style="color:#999">登录后查看</view>
+    </view>
+    <view v-if="isLogin" class="info-bar">
+      <button v-if="canHexiao=='unknown'" class="user-hexiao" open-type="getPhoneNumber" @getphonenumber="getphone">消费券核销</button>
+      <button v-else class="user-hexiao"  @click="getphone">消费券核销</button>
+      
     </view>
     <button v-if="isLogin" class="log-out-btn" @click="logout">退出登录</button>
   </view>
@@ -18,7 +23,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import {login} from '@/api/device';
+import {login, setPhone, getInfo, logout} from '@/api/device';
 
 export default {
   computed: {
@@ -27,11 +32,12 @@ export default {
   data() {
     return {
       isLogin:false,
-      userInfo:{}
+      userInfo:{},
+      canHexiao:'unknown'
     }
   },
   created(){
-    let opind = uni.getStorageSync('openId')
+    let opind = uni.getStorageSync('token')
     if(opind&&opind!=='') {
       if(uni.getStorageSync('userInfo')) {
         this.isLogin = true
@@ -40,11 +46,88 @@ export default {
     }
   },
   methods: {
+    getphone(e){
+      if(this.isLogin==false) {
+        uni.showToast({
+                title: '对不起，请先登陆!',
+                icon:'none',
+                duration: 2000
+              });
+        return
+      }
+      if(this.canHexiao=='unknown') {
+        setPhone({
+          iv:e.detail.iv,
+          encryptedData:e.detail.encryptedData
+        }).then(res => {
+          if(res.code == 200) {
+            getInfo().then(res => {
+              console.log(res)
+              if(res.result.type == 1) {
+                this.canHexiao = true
+                uni.navigateTo({
+                  url:`/pages/hexiao/index`,
+                })
+              } else {
+                this.canHexiao = false
+                uni.showToast({
+                  title: '对不起，您不是管理员',
+                icon:'none',
+                  duration: 2000
+                });
+              }
+            })
+          } else {
+            uni.showToast({
+                  title: res.message,
+                  duration: 2000
+                });
+          }
+        })
+      } else if(this.canHexiao == true) {
+        console.log(1111)
+        uni.navigateTo({
+                  url:`/pages/hexiao/index`,
+                })
+
+      } else if (this.canHexiao == false){
+        console.log(22222)
+
+         getInfo().then(res => {
+              console.log(res)
+              if(res.result.type == 1) {
+                this.canHexiao = true
+                uni.navigateTo({
+                  url:`/pages/hexiao/index`,
+                })
+              } else {
+                this.canHexiao = false
+                uni.showToast({
+                  title: '对不起，您不是管理员',
+                  duration: 2000
+                });
+              }
+            })
+      }
+      
+    },
+    gotoXiaofei(){
+      uni.navigateToMiniProgram({
+        appId:'wx654ce96a7324e76f',
+        path:'pages/hall?q=https%3A%2F%2Faction.weixin.qq.com%2Fmkthall%2Fmchhall%3Fhall_code%3DHDzfc3SWS6lzdS694Phkbg%26t%3DaZbcQqNm-vRguGGDuPFKW7exbjYlJ-yGI7M4fzOQDgM&scancode_time=1624792543'
+      })
+    },
     logout(){
-      uni.removeStorageSync('userInfo');
-      uni.removeStorageSync('openId');
+      logout().then(res => {
+          uni.removeStorageSync('userInfo');
+      uni.removeStorageSync('token');
         this.isLogin = false
         this.userInfo = {}
+      })
+      // uni.removeStorageSync('userInfo');
+      // uni.removeStorageSync('token');
+      //   this.isLogin = false
+      //   this.userInfo = {}
     },
     toLogin() {
       if (!this.isLogin) {
@@ -55,7 +138,7 @@ export default {
               code:res.code
             }).then(res => {
               console.log(111,res)
-              uni.setStorageSync('openId', res.result.id);
+              uni.setStorageSync('token', res.result);
               uni.getUserInfo({
                 provider:"weixin",
                 success:(userInfo)=> {
@@ -114,6 +197,16 @@ export default {
     display: flex;
     line-height: 8vh;
     font-size: 14px;
+    .user-hexiao{
+    float: left;
+    font-size: 14px;
+    background-color: #fff;
+    text-align: left;
+    width: 100%;
+    padding-left: 0rpx;
+    line-height: 8vh;
+    }
+    .user-hexiao::after{ border: none; }
     .info-bar-l {
       float: left;
     }

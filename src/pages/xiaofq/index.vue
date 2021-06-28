@@ -13,7 +13,7 @@
       <!-- 内部为自定义代码，按钮点击部分的代码写在这里 -->
       <!-- [[以下为示例代码 -->
       <!-- <view class="text">领取</view> -->
-      <view class="btn" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">立即领取</view>
+      <view class="btn" @click="getXiaofq" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
 
       <!-- 以上为示例代码 ]] -->
     </send-coupon>
@@ -30,7 +30,7 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 
-import * as deviceApi from '@/api/device';
+import {getXiaofeiquan,getTodayStatus} from '@/api/device';
 export default {
   data() {
     return {
@@ -55,10 +55,17 @@ export default {
   },
   created() {
     // this.setDeviceList()
+    console.log(999,uni.getStorageSync('token'))
+    getTodayStatus({}).then(res => {
+      console.log(res)
+    })
   },
   methods: {
     getXiaofq(){
-      this.hasGet = true
+      getXiaofeiquan({}).then(res => {
+        console.log(888,res)
+        this.hasGet = true
+      })
     },
     getcoupon(params) {
       // 插件返回信息在params.detail

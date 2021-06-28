@@ -31,3 +31,8 @@ export const cloudSendMsgInfo = (params) => api.get(`/api/device/cloudSendMsgInf
 export const getActive = (data) => api.post('/mini/party/query',data)
 export const getNews = (data) => api.post('/mini/news/query',data)
 export const login = (data) => api.post('/mini/user/login',data)
+export const getXiaofeiquan = (data) => api.post('/mini/pay/get',data)
+export const getTodayStatus = (data) => api.post('/mini/pay/getTodayStatus',data)
+export const setPhone = (data) => api.post('/mini/user/setWxPhone',data)
+export const getInfo = (data) => api.post('/mini/user/getInfo',data)
+export const logout = (data) => api.post('/mini/user/logout',data)

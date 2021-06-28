@@ -2,11 +2,10 @@ import store from '@/store'
 import { GlobalInterception } from './errCode';
 export default class Service {
   config = {
-    // baseUrl: 'http://172.22.10.102:80',
 	  baseUrl: 'https://jiangxian.nanjingyuanxin.com/jiang',   // 生产环境地址
     timeout: 30000,
     header: {
-      'content-type': 'application/json'
+      'content-type': 'application/json',
     }
   }
 
@@ -36,9 +35,11 @@ export default class Service {
 
   request(options = {}) {
     // 设置token
-    if (store.getters.isLogin) {
-      this.config.header.Authorization = `Bearer ${store.getters.access_token}`
-    } else delete this.config.header.Authorization
+    // if (store.getters.isLogin) {
+    //   this.config.header.Authorization = `Bearer ${store.getters.access_token}`
+    // } else delete this.config.header.Authorization
+    this.config.header.token = uni.getStorageSync('token')||''
+
     return new Promise((resolve, reject) => {
       return uni.request({
         url: this.judgeUrl(options.url),
@@ -47,7 +48,6 @@ export default class Service {
         header: this.config.header,
       })
       .then(res => {
-        console.log(777,res)
         if (res[0] !== null) {
           uni.showToast({ title: '网络错误，请检查网络', icon: 'none' })
         } else if (res[1].statusCode === 200) {

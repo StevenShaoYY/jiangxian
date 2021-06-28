@@ -55,6 +55,12 @@
 			"style": {
 				"navigationBarTitleText": "邮乐购"
 			}
+		},
+		{
+			"path": "pages/hexiao/index",
+			"style": {
+				"navigationBarTitleText": "核销卡券"
+			}
 		}
 	],
 	"globalStyle": {

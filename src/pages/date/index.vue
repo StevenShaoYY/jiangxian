@@ -64,7 +64,7 @@ export default {
   }
   .swiper-pic{
     width: 715rpx;
-    height: 100%;
+    height: 1432rpx;
   }
 }
 </style>
