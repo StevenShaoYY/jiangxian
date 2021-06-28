@@ -36,3 +36,6 @@ export const getTodayStatus = (data) => api.post('/mini/pay/getTodayStatus',data
 export const setPhone = (data) => api.post('/mini/user/setWxPhone',data)
 export const getInfo = (data) => api.post('/mini/user/getInfo',data)
 export const logout = (data) => api.post('/mini/user/logout',data)
+export const deleteQuan = (data) => api.post('/mini/pay/delete',data)
+export const getMiniCouponListFromWx = (data) => api.post('/mini/pay/getMiniCouponListFromWx',data)
+export const hexiao = (data) => api.post('/mini/pay/verify',data)
