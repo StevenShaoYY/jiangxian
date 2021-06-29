@@ -1,30 +1,12 @@
 <template>
   <view class="map-container">
     <image class="back-img" src="../../static/xiaofeiquanbac.png" mode="" />
-    
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
+    <view class="btn" v-if="hasGet==true && rest==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="rest==false"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
     <send-coupon
-      @bindcustomevent="getcoupon"
-      :send_coupon_params="send_coupon_params"
-      :sign="sign"
-      :send_coupon_merchant="send_coupon_merchant"
-    >
-      <!-- 内部为自定义代码，按钮点击部分的代码写在这里 -->
-      <!-- [[以下为示例代码 -->
-      <!-- <view class="text">领取</view> -->
-      <view class="btn" @click="getXiaofq" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
-
-      <!-- 以上为示例代码 ]] -->
-    </send-coupon>
-    <view class="fenge"></view>
-    <view class="word2">
-      用户领取规则：</view>
-    <view class="word">    &nbsp;&nbsp;   7月6日-7月10日，每日10:00开启江鲜优惠券发放，进入云享江鲜大会平台“江鲜券领取页面”，在线领“江鲜消费券”。</view>
-    <view class="word">    &nbsp;&nbsp;   消费券自动存入微信卡包，可用于场口镇各民宿、江鲜馆、农特产品店等消费；结账时，向商家出示券码，当场抵扣现金。</view>
-    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  可使用商家：</view>
-    <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
-    <send-coupon
+      v-if="hasGet==false && rest==true"
       @customevent="getcoupon"
       :send_coupon_params="send_coupon_params"
       :sign="sign"
@@ -37,7 +19,30 @@
 
       <!-- 以上为示例代码 ]] -->
     </send-coupon>
-    <view class="btn" ref="delbtn" id="delbtn" @click="deleteQuan" :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">删除</view>
+    <view class="fenge"></view>
+    <view class="word2">
+      用户领取规则：</view>
+    <view class="word">    &nbsp;&nbsp;   7月6日-7月10日，每日10:00开启江鲜优惠券发放，进入云享江鲜大会平台“江鲜券领取页面”，在线领“江鲜消费券”。</view>
+    <view class="word">    &nbsp;&nbsp;   消费券自动存入微信卡包，可用于场口镇各民宿、江鲜馆、农特产品店等消费；结账时，向商家出示券码，当场抵扣现金。</view>
+    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  可使用商家：</view>
+    <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
+    <view class="btn" v-if="hasBeerGet==true&&beerRest==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="beerRest==false"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
+    <send-coupon
+      v-if="hasBeerGet==false&&beerRest==true"
+      @customevent="getbeercoupon"
+      :send_coupon_params="beersend_coupon_params"
+      :sign="beersign"
+      :send_coupon_merchant="send_coupon_merchant"
+    >
+      <!-- 内部为自定义代码，按钮点击部分的代码写在这里 -->
+      <!-- [[以下为示例代码 -->
+      <!-- <view class="text">领取</view> -->
+      <view class="btn" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
+
+      <!-- 以上为示例代码 ]] -->
+    </send-coupon>
+    <view class="btn" ref="delbtn" id="delbtn" @click="deleteQuan" :style="{background:'linear-gradient(0deg, #BE6569, #D5B8AF)'}">删除</view>
 
     <view class="fenge"></view>
     <view class="word2">
@@ -55,42 +60,73 @@ import {getXiaofeiquan,getTodayStatus, getMiniCouponListFromWx,deleteQuan} from 
 export default {
   data() {
     return {
-      latitude:29.890874,
-      longitude:119.830751,
       hasGet:false,
-      covers:[{
-        latitude:29.890874,
-        longitude:119.830751,
-        iconPath:'../../static/location.png'
-      }],
+      hasBeerGet:false,
+      rest:true,
+      beerRest:true,
+      couponDetail:{},
+      beercouponDetail:{},
       send_coupon_params:[{
         "stock_id": "1209180000000035",
         "out_request_no":"161120695720210628000009"
       }],
       sign:"34A8262F946F04A8C9F7B80EC78D2C5CD7E736D657BFBD7F058D9419038BDA0C",
-      send_coupon_merchant:"1611206957"
+      send_coupon_merchant:"1611206957",
+      beersign:"",
+      beersend_coupon_params:[],
+      delCode:'1210212723003553621703',
+      delStock:"1209180000000037"
     }
   },
   computed: {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
   created() {
-    // this.setDeviceList()
-    console.log(999,uni.getStorageSync('token'))
     getTodayStatus({}).then(res => {
       console.log(res)
+      if(res.result.moneyCouponStatus == 1) {
+        this.hasGet = true
+      } else {
+        this.hasGet = false
+        if(res.result.moneyCouponStatus == 2) {
+          this.rest=false
+        }
+      }
+      if(res.result.beerCouponStatus == 1) {
+        this.hasBeerGet = true
+      } else {
+        this.hasBeerGet = false
+        if(res.result.moneyCouponStatus == 2) {
+          this.beerRest=false
+        }
+      }
     })
-    getMiniCouponListFromWx({})
+    getMiniCouponListFromWx({}).then(res => {
+      console.log(res.result.content)
+      for(let item of res.result.content) {
+        console.log("stock_id："+item.stock_id+',code：'+item.coupon_code)
+      }
+    })
     getXiaofeiquan({type:1}).then(res => {
         console.log(888,res)
         this.sign = res.result.sign
+        this.couponDetail = res.result.miniCoupon
         this.send_coupon_merchant = res.result.sendCouponMerchant
         this.send_coupon_params=[{
           "stock_id": res.result.stockId,
           "out_request_no": res.result.outRequestNo
         }]
-        // this.hasGet = true
-      })
+    })
+    getXiaofeiquan({type:2}).then(res => {
+        console.log(999,res)
+        this.beersign = res.result.sign
+        this.beercouponDetail =  res.result.miniCoupon
+        this.send_coupon_merchant = res.result.sendCouponMerchant
+        this.beersend_coupon_params=[{
+          "stock_id": res.result.stockId,
+          "out_request_no": res.result.outRequestNo
+        }]
+    })
   },
   methods: {
     getXiaofq(){
@@ -102,31 +138,92 @@ export default {
       //     "stock_id": res.result.stockId,
       //     "out_request_no": res.result.outRequestNo
       //   }]
-      // console.log(this.$refs)
-        // this.$refs.delbtn.click()
-         let theNode=uni.createSelectorQuery().select("#delbtn")
-        //  theNode.triggerEvent('click')
-        console.log( uni.createSelectorQuery().in(this)._component)
-        theNode._selectorQuery._defaultComponent.triggerEvent('click')
-          console.log( uni.createSelectorQuery().in(this)._component.$refs)
-
-
-    theNode.boundingClientRect((data)=>{
-          console.log(data)
-    }).exec()
-        // document.getElementById("delbtn").click();
-        this.hasGet = true
+        // this.hasGet = true
       // })
     },
     getcoupon(params) {
       // 插件返回信息在params.detail
       console.log('getcoupon', params)
+      if(params.detail.errcode == 'OK') {
+        this.delCode = params.detail.send_coupon_result[0].coupon_code
+        this.delStock = params.detail.send_coupon_result[0].stock_id
+        if(params.detail.send_coupon_result[0].code=='MAXQUOTA') {
+          uni.showToast({
+            title: params.detail.send_coupon_result[0].message,
+            icon:'none',
+            duration: 2000
+          });
+        } else if(params.detail.send_coupon_result[0].code=='SUCCESS') {
+          // uni.showToast({
+          //   title: params.detail.send_coupon_result[0].message,
+          //   // icon:'none',
+          //   duration: 2000
+          // });
+          uni.showModal({
+            title: '恭喜您',
+            content: `获得一张${this.couponDetail.stockName}`,
+            confirmText:'立即使用',
+            cancelText:'稍后使用',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定');
+              } else if (res.cancel) {
+                console.log('用户点击取消');
+              }
+            }
+          });
+          this.hasGet = true
+        }
+      } else {
+        uni.showToast({
+          title: '领取失败',
+          icon:'none',
+          duration: 2000
+        });
+      }
+    },
+    getbeercoupon(params) {
+      // 插件返回信息在params.detail
+      console.log('getcoupon', params)
+      if(params.detail.errcode == 'OK') {
+        this.delCode = params.detail.send_coupon_result[0].coupon_code
+        this.delStock = params.detail.send_coupon_result[0].stock_id
+        if(params.detail.send_coupon_result[0].code=='MAXQUOTA') {
+          uni.showToast({
+            title: params.detail.send_coupon_result[0].message,
+            icon:'none',
+            duration: 2000
+          });
+        } else if(params.detail.send_coupon_result[0].code=='SUCCESS'){
+           uni.showModal({
+            title: '恭喜您',
+            content: `获得一张${this.couponDetail.stockName}`,
+            confirmText:'立即使用',
+            cancelText:'稍后使用',
+            success: function (res) {
+              if (res.confirm) {
+                console.log('用户点击确定');
+              } else if (res.cancel) {
+                console.log('用户点击取消');
+              }
+            }
+          });
+          this.hasBeerGet = true
+        }
+      } else {
+        uni.showToast({
+          title: '领取失败',
+          icon:'none',
+          duration: 2000
+        });
+      }
     },
     deleteQuan(){
-      console.log('删除删除删除删除删除')
       deleteQuan({
-        code:'1210212723003549147257',
-        stockId:'1209180000000035'
+        code:this.delCode,
+        stockId:this.delStock
+      }).then(res => {
+        console.log(res)
       })
     }
   },

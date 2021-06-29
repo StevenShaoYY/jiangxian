@@ -129,9 +129,16 @@ export default {
   },
   methods: {
     Goto(pageUrl){
-      uni.navigateTo({
-        url:pageUrl
-      })
+      if(pageUrl == '/pages/shop/index') {
+        uni.navigateToMiniProgram({
+          appId:'wxbbd95efd68bc8a5e',
+          path:'pages/webView?pageUrl=https%3A%2F%2Fm.ule.com%2Fmitem%2Fstore%2Findex%2F10218.html'
+        })
+      } else {
+        uni.navigateTo({
+          url:pageUrl
+        })
+      }
     },
     goToDetail(url) {
       uni.navigateTo({

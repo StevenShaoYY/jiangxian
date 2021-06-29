@@ -8,6 +8,10 @@
       <span>{{item.time}}</span>
       <span style="margin-left:30rpx">{{item.msg}}</span>
     </view>
+    <input type="text" v-model="Vcode">
+    <button class="btn" @click="scan2">
+      手动核销
+    </button>
   </view>
 </template>
 
@@ -19,17 +23,19 @@ import {hexiao} from '@/api/device';
 export default {
   data() {
     return {
-      list:uni.getStorageSync('hexiao')||[]
+      list:uni.getStorageSync('hexiao')||[],
+      Vcode:''
     }
   },
   computed: {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
-  created() {
-            console.log(this.list.length)
-            if( this.list.length!=0) {
-              this.list = JSON.parse(this.list)
-            }
+  mounted() {
+    console.log(this.list.length)
+    if( this.list.length!=0) {
+      console.log(this.list)
+      this.list = JSON.parse(this.list)
+    }
     // this.setDeviceList()
   },
   methods: {
@@ -47,6 +53,35 @@ export default {
                 second=second < 10 ? ('0' + second) : second;
                 return y + '-' + m + '-' + d+' '+h+':'+minute+':'+second;
             },
+    scan2(){
+      hexiao({code:this.Vcode}).then(res => {
+            console.log(res)
+            if(res.code==200) {
+              this.list.push({
+                time:this.formatDateTime(new Date()),
+                msg:'核销成功'
+              })
+              uni.showToast({
+                title: '核销成功',
+                duration: 20000
+              });
+            } else {
+              this.list.push({
+                time:this.formatDateTime(new Date()),
+                msg:res.message || res.result
+              })
+              uni.showToast({
+                title: res.message || res.result,
+                icon:'none',
+                duration: 20000
+              });
+            }
+            console.log(this.list)
+            uni.setStorageSync('hexiao', this.list);
+          
+            
+          })
+    },
     scan(){
       uni.scanCode({
         onlyFromCamera:true,
@@ -57,17 +92,28 @@ export default {
           console.log(e)
           hexiao({code:e.result}).then(res => {
             console.log(res)
-            this.list.push({
-              time:this.formatDateTime(new Date()),
-              msg:res.message || res.result
-            })
-            console.log(this.list)
-            uni.setStorageSync('hexiao', this.list);
-             uni.showToast({
-                title: res.message,
+            if(res.code==200) {
+              this.list.push({
+                time:this.formatDateTime(new Date()),
+                msg:'核销成功'
+              })
+              uni.showToast({
+                title: '核销成功',
+                duration: 20000
+              });
+            } else {
+              this.list.push({
+                time:this.formatDateTime(new Date()),
+                msg:res.message || res.result
+              })
+              uni.showToast({
+                title: res.message || res.result,
                 icon:'none',
                 duration: 20000
               });
+            }
+            console.log(this.list)
+            uni.setStorageSync('hexiao', this.list);
           })
         },
         fail:(e)=>{

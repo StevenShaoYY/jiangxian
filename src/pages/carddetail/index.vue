@@ -1,8 +1,11 @@
 <template>
   <view class="map-container">
-    <view class="gamecard" v-for="(item, index) of cardList" :key="index">
-        <view class="">
-          <image src="../../static/555.png" class="right-pic" alt="">
+    <view class="title">
+      我的券
+    </view>
+    <view class="" v-for="(item, index) of cardList" :key="index">
+        <view class="ccard-c">
+          <image :src="item.picUrl" class="ccard" alt="">
         </view>
     </view>
   </view>
@@ -26,12 +29,26 @@ export default {
   created() {
     // this.setDeviceList()
    getMiniCouponListFromWx({}).then(res =>{
-     console.log(res)
-     this.cardList = res.result
+     for(let item of res.result.content) {
+       if(item.coupon_state == 'SENDED') {
+          if(item.stock_type == 'EXCHANGE') {
+            item.picUrl = '../../static/beer.png'
+            this.cardList.push(item)
+          } else {
+            let Cvalue = item.coupon_use_rule.fixed_normal_coupon.discount_amount
+            if(Cvalue==5||Cvalue==10||Cvalue==25||Cvalue==50||Cvalue==100){
+              item.picUrl = '../../static/'+Cvalue+'.png'
+              this.cardList.push(item)
+            }
+          }
+       }
+     }
+     console.log(this.cardList)
+    //  this.cardList = res.result.content
    })
   },
   onPullDownRefresh(){
-    getActive({
+    getMiniCouponListFromWx({
       type:2
     }).then(res => {
       this.dishList = res.result
@@ -52,47 +69,20 @@ export default {
 <style lang="scss">
 .map-container {
   width: 750rpx;
-  .gamecard{
-    width: 715rpx;
-    margin-left: 16rpx;
-    margin-top: 37rpx;
-    //height: 523rpx;
-    border-radius: 10rpx;
-    background: linear-gradient(45deg, rgba(221, 235, 225, 0.45), rgba(221, 235, 225, 0.45), rgba(221, 235, 225, 0.45), rgba(206, 223, 211, 0.45));
-    box-shadow: 0rpx 6rpx 12rpx 0rpx rgba(0, 0, 0, 0.2);
-    .top{
-      display: flex;
-      .topleft{
-        flex: 0 0 420rpx;
-        width: 420rpx;
-        height: 314rpx;
-        margin-top: 24rpx;
-        margin-left: 59rpx;
-      }
-      .topright{
-        display: flex;
-        flex: 1;
-        height: 314rpx;
-        justify-content: center;
-        align-items: center;
-        .right-pic{
-          width: 41rpx;
-          height: 219rpx;
-        }
-      }
-    }
-    .bottom{
-      width: 599rpx;
-//height: 90px;
-margin-left: 69rpx;
-margin-top: 46rpx;
-padding-bottom: 49rpx;
-font-size: 22rpx;
-font-family: Microsoft YaHei;
-font-weight: 400;
-color: #000000;
-line-height: 34rpx;
-    }
+  .title{
+    width: 716rpx;
+    margin-left: 17rpx;
+    font-size: 34rpx;
+    padding: 20rpx 0;
+    border-bottom: 1rpx solid #666;
+  }
+  .ccard-c{
+    margin-left: 17rpx;
+  }
+  .ccard{
+    width: 716rpx;
+    height: 295rpx;
+    margin-top: 30rpx;
   }
 }
 </style>
