@@ -42,7 +42,7 @@
 
       <!-- 以上为示例代码 ]] -->
     </send-coupon>
-    <view class="btn" ref="delbtn" id="delbtn" @click="deleteQuan" :style="{background:'linear-gradient(0deg, #BE6569, #D5B8AF)'}">删除</view>
+    <!-- <view class="btn" ref="delbtn" id="delbtn" @click="deleteQuan" :style="{background:'linear-gradient(0deg, #BE6569, #D5B8AF)'}">删除</view> -->
 
     <view class="fenge"></view>
     <view class="word2">
@@ -74,8 +74,8 @@ export default {
       send_coupon_merchant:"1611206957",
       beersign:"",
       beersend_coupon_params:[],
-      delCode:'1210212723003553621703',
-      delStock:"1209180000000037"
+      delCode:'1210212723003558755256',
+      delStock:"1209180000000033"
     }
   },
   computed: {
@@ -129,18 +129,6 @@ export default {
     })
   },
   methods: {
-    getXiaofq(){
-      // getXiaofeiquan({type:1}).then(res => {
-      //   console.log(888,res)
-      //   this.sign = res.result.sign
-      //   this.send_coupon_merchant = res.result.sendCouponMerchant
-      //   this.send_coupon_params=[{
-      //     "stock_id": res.result.stockId,
-      //     "out_request_no": res.result.outRequestNo
-      //   }]
-        // this.hasGet = true
-      // })
-    },
     getcoupon(params) {
       // 插件返回信息在params.detail
       console.log('getcoupon', params)
@@ -164,9 +152,12 @@ export default {
             content: `获得一张${this.couponDetail.stockName}`,
             confirmText:'立即使用',
             cancelText:'稍后使用',
-            success: function (res) {
+            success: res=> {
               if (res.confirm) {
                 console.log('用户点击确定');
+                uni.navigateTo({
+                  url:`/pages/cardhexiao/index?stock_id=${params.detail.send_coupon_result[0].stock_id}&coupon_code=${params.detail.send_coupon_result[0].coupon_code}`,
+                })
               } else if (res.cancel) {
                 console.log('用户点击取消');
               }
@@ -197,12 +188,15 @@ export default {
         } else if(params.detail.send_coupon_result[0].code=='SUCCESS'){
            uni.showModal({
             title: '恭喜您',
-            content: `获得一张${this.couponDetail.stockName}`,
+            content: `获得一张${this.beercouponDetail.stockName}`,
             confirmText:'立即使用',
             cancelText:'稍后使用',
             success: function (res) {
               if (res.confirm) {
                 console.log('用户点击确定');
+                uni.navigateTo({
+                  url:`/pages/cardhexiao/index?stock_id=${params.detail.send_coupon_result[0].stock_id}&coupon_code=${params.detail.send_coupon_result[0].coupon_code}`,
+                })
               } else if (res.cancel) {
                 console.log('用户点击取消');
               }

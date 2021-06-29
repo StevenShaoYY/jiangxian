@@ -65,10 +65,16 @@
 		{
 			"path": "pages/carddetail/index",
 			"style": {
-				"navigationBarTitleText": "我的消费券"
+				"navigationBarTitleText": "我的消费券",
+				"enablePullDownRefresh":true
+			}
+		},
+		{
+			"path": "pages/cardhexiao/index",
+			"style": {
+				"navigationBarTitleText": "消费券"
 			}
 		}
-		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

@@ -3,15 +3,15 @@
     <button class="btn" @click="scan">
       开始核销
     </button>
-    <view style="text-align:center;font-size:29rpx;padding:25rpx 0;font-weight:700;">核销记录</view>
+    <!-- <view style="text-align:center;font-size:29rpx;padding:25rpx 0;font-weight:700;">核销记录</view>
     <view style="margin:0 25rpx;" v-for="(item, index) of list" :key="index">
       <span>{{item.time}}</span>
       <span style="margin-left:30rpx">{{item.msg}}</span>
-    </view>
-    <input type="text" v-model="Vcode">
+    </view> -->
+    <!-- <input type="text" v-model="Vcode">
     <button class="btn" @click="scan2">
       手动核销
-    </button>
+    </button> -->
   </view>
 </template>
 
@@ -32,10 +32,10 @@ export default {
   },
   mounted() {
     console.log(this.list.length)
-    if( this.list.length!=0) {
-      console.log(this.list)
-      this.list = JSON.parse(this.list)
-    }
+    // if( this.list.length!=0) {
+    //   console.log(this.list)
+    //   this.list = JSON.parse(this.list)
+    // }
     // this.setDeviceList()
   },
   methods: {
@@ -90,7 +90,7 @@ export default {
         ],
         success:(e)=>{
           console.log(e)
-          hexiao({code:e.result}).then(res => {
+          hexiao({code:e.result,consumeAmount:200000,consumeBillPic:"2222"}).then(res => {
             console.log(res)
             if(res.code==200) {
               this.list.push({

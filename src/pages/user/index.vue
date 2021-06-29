@@ -1,21 +1,20 @@
 <template>
   <view class="user-container">
-    <view class="avatar-bar" @click="toLogin">
+    <view class="avatar-bar">
       <view v-if="!isLogin" class="user-avatar"></view>
       <image v-else class="user-avatar" :src="userInfo.avatarUrl"></image>
       <!-- <view class="user-name">{{ userInfo.userName || '点击登录' }}</view> -->
-      <button class="user-name" open-type="getUserInfo" withCredentials="true">{{ userInfo.nickName || '点击登录' }}</button>
+      <button class="user-name"  @click="toLogin">{{ userInfo.nickName || '点击登录' }}</button>
 
     </view>
-    <view class="info-bar">
-      <view class="info-bar-l" @click="gotoXiaofei">我的消费券</view>
-      <view class="info-bar-r" v-if="isLogin" style="color:#1879FF">{{ deviceNum }}</view>
+    <view class="info-bar"  @click="gotoXiaofei">
+      <view class="info-bar-l">我的消费券</view>
+      <view class="info-bar-r" v-if="isLogin" style="color:#ccc">{{ deviceNum }}&nbsp;张</view>
       <view class="info-bar-r" v-else style="color:#999">登录后查看</view>
     </view>
     <view v-if="isLogin" class="info-bar">
       <button v-if="canHexiao=='unknown'" class="user-hexiao" open-type="getPhoneNumber" @getphonenumber="getphone">消费券核销</button>
       <button v-else class="user-hexiao"  @click="getphone">消费券核销</button>
-      
     </view>
     <button v-if="isLogin" class="log-out-btn" @click="logout">退出登录</button>
   </view>
@@ -23,7 +22,7 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex';
-import {login, setPhone, getInfo, logout} from '@/api/device';
+import {login, setPhone, getInfo, logout, getMiniCouponListFromWx} from '@/api/device';
 
 export default {
   computed: {
@@ -33,16 +32,20 @@ export default {
     return {
       isLogin:false,
       userInfo:{},
-      canHexiao:'unknown'
+      canHexiao:'unknown',
+      deviceNum:0
     }
   },
   created(){
     let opind = uni.getStorageSync('token')
     if(opind&&opind!=='') {
+      this.isLogin = true
       if(uni.getStorageSync('userInfo')) {
-        this.isLogin = true
         this.userInfo = uni.getStorageSync('userInfo')
       }
+      getMiniCouponListFromWx({}).then(res =>{
+          this.deviceNum = res.result.totalCount
+      })
     }
   },
   methods: {
@@ -78,15 +81,22 @@ export default {
               }
             })
           } else {
-            uni.showToast({
-                  title: res.message,
-                icon:'none',
+            if(res.message == '参数为空') {
+              uni.showToast({
+                  title: '请选择手机号',
+                  icon:'none',
                   duration: 2000
-                });
+              });
+            } else {
+              uni.showToast({
+                  title: res.message,
+                  icon:'none',
+                  duration: 2000
+              });
+            }
           }
         })
       } else if(this.canHexiao == true) {
-        console.log(1111)
         uni.navigateTo({
                   url:`/pages/hexiao/index`,
                 })
@@ -113,6 +123,9 @@ export default {
       
     },
     gotoXiaofei(){
+      if(this.isLogin==false) {
+        return
+      }
       uni.navigateTo({
         url:`/pages/carddetail/index`,
       })
@@ -130,6 +143,21 @@ export default {
       //   this.userInfo = {}
     },
     toLogin() {
+       if(!uni.getStorageSync('userInfo')) {
+         uni.getUserProfile({
+                desc:'展示用户头像和用户名',
+                success:(userInfo)=> {
+                  console.log(userInfo)
+                  this.userInfo = userInfo.userInfo
+                  uni.setStorageSync('userInfo', this.userInfo);
+                 
+                },
+                fail:(e) => {
+                  console.log(e)
+                }
+              })
+      }
+      
       if (!this.isLogin) {
         uni.login({
           provider: '',
@@ -139,18 +167,26 @@ export default {
             }).then(res => {
               console.log(111,res)
               uni.setStorageSync('token', res.result);
-              uni.getUserInfo({
-                provider:"weixin",
-                success:(userInfo)=> {
-                  console.log(userInfo)
+              
                   this.isLogin = true
-                  this.userInfo = userInfo.userInfo
-                  uni.setStorageSync('userInfo', this.userInfo);
-                },
-                fail:(e) => {
-                  console.log(e)
-                }
-              })
+               getMiniCouponListFromWx({}).then(res =>{
+                      this.deviceNum = res.result.totalCount
+                  })
+              // uni.getUserInfo({
+              //   provider:"weixin",
+              //   success:(userInfo)=> {
+              //     console.log(userInfo)
+              //     this.isLogin = true
+              //     this.userInfo = userInfo.userInfo
+              //     uni.setStorageSync('userInfo', this.userInfo);
+              //     getMiniCouponListFromWx({}).then(res =>{
+              //         this.deviceNum = res.result.totalCount
+              //     })
+              //   },
+              //   fail:(e) => {
+              //     console.log(e)
+              //   }
+              // })
             })
           },
           fail: () => {},
@@ -217,7 +253,7 @@ export default {
   .log-out-btn {
     width: 100%;
     position: absolute;
-    bottom: 10rpx;
+    bottom: 20rpx;
     left: 0;
     height: 110rpx;
     color: #BE6569;

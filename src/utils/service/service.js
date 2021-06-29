@@ -1,5 +1,6 @@
 import store from '@/store'
 import { GlobalInterception } from './errCode';
+ import {login} from '@/api/device'
 export default class Service {
   config = {
 	  baseUrl: 'https://jiangxian.nanjingyuanxin.com/jiang',   // 生产环境地址
@@ -39,7 +40,6 @@ export default class Service {
     //   this.config.header.Authorization = `Bearer ${store.getters.access_token}`
     // } else delete this.config.header.Authorization
     this.config.header.token = uni.getStorageSync('token')||''
-
     return new Promise((resolve, reject) => {
       return uni.request({
         url: this.judgeUrl(options.url),
@@ -51,7 +51,36 @@ export default class Service {
         if (res[0] !== null) {
           uni.showToast({ title: '网络错误，请检查网络', icon: 'none' })
         } else if (res[1].statusCode === 200) {
-          resolve(res[1].data)
+          if(res[1].data.code == 400) {
+            if(uni.getStorageSync('token')!='') {
+              uni.login({
+                provider: '',
+                success: (res) => {
+                  login({
+                    code:res.code
+                  }).then(res => {
+                    uni.setStorageSync('token', res.result);
+                    // uni.getUserInfo({
+                    //   provider:"weixin",
+                    //   success:(userInfo)=> {
+                    //       uni.setStorageSync('userInfo', userInfo.userInfo);
+                    //       resolve(this.request(options))
+                    //     },
+                    //     fail:(e) => {
+                    //       console.log(e)
+                    //     }
+                    //   })
+                  })
+                },
+                fail: () => {},
+                complete: () => {}
+              })
+            } else {
+              uni.showToast({ title: '请先登录', icon: 'none' })
+            }
+          }else {
+            resolve(res[1].data)
+          }
         } else if (res[1].statusCode === 403) {
           uni.showToast({ title: '请先登录', icon: 'none' })
           setTimeout(() => {

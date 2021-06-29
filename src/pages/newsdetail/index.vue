@@ -20,8 +20,8 @@ export default {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
   onLoad(query) {
-    // console.log(query)
-    this.url = query
+    console.log(query)
+    this.url = query.url
     // this.setDeviceList()
   },
   methods: {
