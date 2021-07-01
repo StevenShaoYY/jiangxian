@@ -3,11 +3,12 @@
     <image class="back-img" src="../../static/xiaofeiquanbac.png" mode="" />
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
-    <view class="btn" v-if="hasGet==true && rest==true&&start==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="hasGet==true&&rest==true&&start==true&&isLogin==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="isLogin==false"  :style="{background:'#aaa'}">{{"请先登陆"}}</view>
     <view class="btn" v-if="rest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
     <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
     <send-coupon
-      v-if="hasGet==false && rest==true"
+      v-if="hasGet==false && rest==true&&start==true&&isLogin==true"
       @customevent="getcoupon"
       :send_coupon_params="send_coupon_params"
       :sign="sign"
@@ -29,11 +30,12 @@
     <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  本活动最终解释权在法律允许范围内归主办方所有
 </view>
     <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
-    <view class="btn" v-if="hasBeerGet==true&&beerRest==true&&start==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="hasBeerGet==true&&beerRest==true&&start==true&&isLogin==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="isLogin==false"  :style="{background:'#aaa'}">{{"请先登陆"}}</view>
     <view class="btn" v-if="beerRest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
     <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
     <send-coupon
-      v-if="hasBeerGet==false&&beerRest==true"
+      v-if="hasBeerGet==false&&beerRest==true&&start==true&&isLogin==true"
       @customevent="getbeercoupon"
       :send_coupon_params="beersend_coupon_params"
       :sign="beersign"
@@ -69,6 +71,7 @@ export default {
       hasGet:false,
       hasBeerGet:false,
       rest:true,
+      isLogin:false,
       start:true,
       beerRest:true,
       couponDetail:{},
@@ -85,10 +88,12 @@ export default {
       delStock:"1209180000000033"
     }
   },
-  computed: {
-    ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
-  },
   created() {
+    let opind = uni.getStorageSync('token')
+    if(opind&&opind!=='') {
+      this.isLogin = true
+    }
+    console.log(this.isLogin)
     getTodayStatus({}).then(res => {
       console.log(res)
       if(res.result.moneyCouponStatus == 1) {

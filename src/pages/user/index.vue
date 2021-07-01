@@ -179,24 +179,9 @@ export default {
               uni.setStorageSync('token', res.result);
               
                   this.isLogin = true
-              //  getMiniCouponListFromWx({}).then(res =>{
-              //         this.deviceNum = res.result.totalCount
-              //     })
-              // uni.getUserInfo({
-              //   provider:"weixin",
-              //   success:(userInfo)=> {
-              //     console.log(userInfo)
-              //     this.isLogin = true
-              //     this.userInfo = userInfo.userInfo
-              //     uni.setStorageSync('userInfo', this.userInfo);
-              //     getMiniCouponListFromWx({}).then(res =>{
-              //         this.deviceNum = res.result.totalCount
-              //     })
-              //   },
-              //   fail:(e) => {
-              //     console.log(e)
-              //   }
-              // })
+                  getInfo().then(res =>{
+                    this.deviceNum = res.result.couponCount
+                  })
             })
           },
           fail: () => {},
