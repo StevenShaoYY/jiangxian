@@ -32,7 +32,6 @@ export default {
     return {
       isLogin:false,
       userInfo:{},
-      canHexiao:'unknown',
       deviceNum:0,
       admin:0
     }
@@ -47,6 +46,7 @@ export default {
       }
       getInfo().then(res =>{
           this.deviceNum = res.result.couponCount
+          this.admin = res.result.type
       })
     }
   },
@@ -66,24 +66,20 @@ export default {
         })
         return
       }
-      if(this.canHexiao=='unknown') {
+      if(this.admin!=1) {
         setPhone({
           iv:e.detail.iv,
           encryptedData:e.detail.encryptedData
         }).then(res => {
           if(res.code == 200) {
-
             getInfo().then(res => {
-              uni.setStorageSync('admin',res.result.type )
-              console.log(res)
-              if(res.result.type == 1) {
-                this.admin = 1
-                this.canHexiao = true
+              uni.setStorageSync('admin',res.result.type)
+              this.admin = res.result.type
+              if(this.admin == 1) {
                 uni.navigateTo({
                   url:`/pages/hexiao/index`,
                 })
               } else {
-                this.canHexiao = false
                 uni.showToast({
                   title: '对不起，您不是管理员',
                 icon:'none',
@@ -107,29 +103,12 @@ export default {
             }
           }
         })
-      } else if(this.canHexiao == true) {
+      } else  {
         uni.navigateTo({
-                  url:`/pages/hexiao/index`,
-                })
+          url:`/pages/hexiao/index`,
+        })
 
-      } else if (this.canHexiao == false){
-         getInfo().then(res => {
-              console.log(res)
-              if(res.result.type == 1) {
-                this.canHexiao = true
-                uni.navigateTo({
-                  url:`/pages/hexiao/index`,
-                })
-              } else {
-                this.canHexiao = false
-                uni.showToast({
-                  title: '对不起，您不是管理员',
-                  duration: 2000
-                });
-              }
-            })
       }
-      
     },
     gotoXiaofei(){
       if(this.isLogin==false) {
@@ -141,16 +120,12 @@ export default {
     },
     logout(){
       logout().then(res => {
-          uni.removeStorageSync('userInfo');
-          uni.removeStorageSync('admin')
-      uni.removeStorageSync('token');
+        uni.removeStorageSync('userInfo');
+        uni.removeStorageSync('admin')
+        uni.removeStorageSync('token');
         this.isLogin = false
         this.userInfo = {}
       })
-      // uni.removeStorageSync('userInfo');
-      // uni.removeStorageSync('token');
-      //   this.isLogin = false
-      //   this.userInfo = {}
     },
     toLogin() {
        if(!uni.getStorageSync('userInfo')) {

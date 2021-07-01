@@ -141,8 +141,10 @@ export default {
       }
     },
     goToDetail(url) {
-      uni.navigateTo({
-        url:`/pages/newsdetail/index?url=${url}`,
+     uni.navigateToMiniProgram({
+        appId:'wxb10c47503e8c8e01',
+        path:url
+        // path:url
       })
     }
   },

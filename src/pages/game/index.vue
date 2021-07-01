@@ -38,7 +38,7 @@ export default {
     getActive({
       type:2
     }).then(res => {
-      // this.dishList = res.result
+      this.dishList = res.result
     })
   },
   onPullDownRefresh(){
