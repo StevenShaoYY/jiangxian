@@ -119,12 +119,12 @@ export default {
         }
       }
     })
-    getMiniCouponListFromWx({}).then(res => {
-      console.log(res.result.content)
-      for(let item of res.result.content) {
-        console.log("stock_id："+item.stock_id+',code：'+item.coupon_code)
-      }
-    })
+    // getMiniCouponListFromWx({}).then(res => {
+    //   console.log(res.result.content)
+    //   for(let item of res.result.content) {
+    //     console.log("stock_id："+item.stock_id+',code：'+item.coupon_code)
+    //   }
+    // })
     getXiaofeiquan({type:1}).then(res => {
         console.log(888,res)
         this.sign = res.result.sign
