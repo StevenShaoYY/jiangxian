@@ -22,9 +22,9 @@
     <view class="fenge"></view>
     <view class="word2">
       用户领取规则：</view>
-    <view class="word">    &nbsp;&nbsp;   7月6日-7月10日，每日10:00开启江鲜优惠券发放，进入云享江鲜大会平台“江鲜券领取页面”，在线领“江鲜消费券”。</view>
-    <view class="word">    &nbsp;&nbsp;   消费券自动存入微信卡包，可用于场口镇各民宿、江鲜馆、农特产品店等消费；结账时，向商家出示券码，当场抵扣现金。</view>
-    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  可使用商家：</view>
+    <view class="word">    &nbsp;&nbsp;   7月6日-7月10日，每日10:00开启江鲜券发放，进入云享江鲜大会平台“江鲜券”领取页面，在线领取“江鲜消费券”。</view>
+    <view class="word">    &nbsp;&nbsp;   消费券自动存入微信卡包，可用于场口镇各指定民宿、江鲜馆、夜宵市集等消费；结账时，向商家出示券码，当场抵扣现金。</view>
+    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  使用时间：7月7日-7月11日</view>
     <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
     <view class="btn" v-if="hasBeerGet==true&&beerRest==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
     <view class="btn" v-if="beerRest==false"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
@@ -47,8 +47,9 @@
     <view class="fenge"></view>
     <view class="word2">
       用户领取规则：</view>
-    <view class="word">    &nbsp;&nbsp;   每张可兑换一罐1L容量的啤酒，先到先得 </view>
-    <view class="word qbottom">    &nbsp;&nbsp;   兑换地点：场口镇东梓关村村史馆</view>
+    <view class="word">    &nbsp;&nbsp;  7月6日-7月10日，每日10:00开启啤酒券发放，进入云享江鲜大会平台“江鲜券”领取页面，在线领取“啤酒兑换券”。 </view>
+    <view class="word qbottom">    &nbsp;&nbsp;   使用时间：7月7日-7月11日，当天领的啤酒券第二天到指定地点兑换
+</view>
   </view>
 </template>
 

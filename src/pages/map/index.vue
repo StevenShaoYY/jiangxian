@@ -1,15 +1,15 @@
 <template>
   <view class="map-container">
     <view class="map-wrap">
-      <map name="" style="width:100%;height:436rpx;" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
+      <map name="" style="width:100%;height:436rpx;" @tap="gotoNavigate" @markertap="gotoNavigate" :latitude="latitude" :longitude="longitude" :markers="covers"></map>
     </view>
     <image class="back-img" src="../../static/mapback.png" mode="" />
     <view @click="gotoNavigate" class="daohang">点击跳转到导航页面</view>
-    <view @click="gotoNavigate" class="title">地址/</view>
-    <view @click="gotoNavigate" class="add">杭州市富阳区东舒线与汤横线交叉路口</view>
-    <view @click="gotoNavigate" class="add">往北约110米</view>
-    <view @click="gotoNavigate" class="title">时间/</view>
-    <view @click="gotoNavigate" class="add">2021年7月初</view>
+    <view class="title">地址/</view>
+    <view  class="add">杭州市富阳区东舒线与汤横线交叉路口</view>
+    <view  class="add">往北约110米</view>
+    <view  class="title">时间/</view>
+    <view class="add">2021年7月初</view>
     <image class="map-img" src="../../static/map-title.png" mode="" />
     <!-- <view class="tab-view">
       <tabBar :pageName.sync="pageName" />
@@ -50,6 +50,7 @@ export default {
           uni.openLocation({
             latitude:29.887870,
             longitude:119.822332,
+            name:'杭州市富阳区东舒线与汤横线交叉路口 往北约110米',
             success:()=>{
               console.log('success')
             }

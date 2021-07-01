@@ -13,7 +13,7 @@
       <view class="info-bar-r" v-else style="color:#999">登录后查看</view>
     </view>
     <view v-if="isLogin" class="info-bar">
-      <button v-if="canHexiao=='unknown'" class="user-hexiao" open-type="getPhoneNumber" @getphonenumber="getphone">消费券核销</button>
+      <button v-if="admin!=1" class="user-hexiao" open-type="getPhoneNumber" @getphonenumber="getphone">消费券核销</button>
       <button v-else class="user-hexiao"  @click="getphone">消费券核销</button>
     </view>
     <button v-if="isLogin" class="log-out-btn" @click="logout">退出登录</button>
@@ -33,18 +33,20 @@ export default {
       isLogin:false,
       userInfo:{},
       canHexiao:'unknown',
-      deviceNum:0
+      deviceNum:0,
+      admin:0
     }
   },
   created(){
     let opind = uni.getStorageSync('token')
+    this.admin = uni.getStorageSync('admin')
     if(opind&&opind!=='') {
       this.isLogin = true
       if(uni.getStorageSync('userInfo')) {
         this.userInfo = uni.getStorageSync('userInfo')
       }
-      getMiniCouponListFromWx({}).then(res =>{
-          this.deviceNum = res.result.totalCount
+      getInfo().then(res =>{
+          this.deviceNum = res.result.couponCount
       })
     }
   },
@@ -58,15 +60,24 @@ export default {
               });
         return
       }
+      if(uni.getStorageSync('admin') == 1) {
+        uni.navigateTo({
+          url:`/pages/hexiao/index`,
+        })
+        return
+      }
       if(this.canHexiao=='unknown') {
         setPhone({
           iv:e.detail.iv,
           encryptedData:e.detail.encryptedData
         }).then(res => {
           if(res.code == 200) {
+
             getInfo().then(res => {
+              uni.setStorageSync('admin',res.result.type )
               console.log(res)
               if(res.result.type == 1) {
+                this.admin = 1
                 this.canHexiao = true
                 uni.navigateTo({
                   url:`/pages/hexiao/index`,
@@ -102,8 +113,6 @@ export default {
                 })
 
       } else if (this.canHexiao == false){
-        console.log(22222)
-
          getInfo().then(res => {
               console.log(res)
               if(res.result.type == 1) {
@@ -133,6 +142,7 @@ export default {
     logout(){
       logout().then(res => {
           uni.removeStorageSync('userInfo');
+          uni.removeStorageSync('admin')
       uni.removeStorageSync('token');
         this.isLogin = false
         this.userInfo = {}

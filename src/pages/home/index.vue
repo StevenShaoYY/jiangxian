@@ -53,7 +53,7 @@ export default {
       background: ['color1', 'color2', 'color3'],
       indicatorDots: true,
       autoplay: true,
-      interval: 2000,
+      interval: 5000,
       duration: 500,
       swiperList: [],
       swiperHotList:[],

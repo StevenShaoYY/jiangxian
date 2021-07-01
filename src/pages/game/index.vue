@@ -12,6 +12,9 @@
         {{item.content}}
       </view>
     </view>
+    <view v-if="dishList.length==0" class="">
+      <image class="noData" src="../../static/noData.jpg"></image>
+    </view>
   </view>
 </template>
 
@@ -35,7 +38,7 @@ export default {
     getActive({
       type:2
     }).then(res => {
-      this.dishList = res.result
+      // this.dishList = res.result
     })
   },
   onPullDownRefresh(){
@@ -102,5 +105,9 @@ color: #000000;
 line-height: 34rpx;
     }
   }
+}
+.noData{
+  width: 750rpx;
+  height: 1334rpx;
 }
 </style>

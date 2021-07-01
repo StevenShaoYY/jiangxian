@@ -1,13 +1,16 @@
 <template>
   <view class="map-container">
-    <image class="header-img" src="../../static/newsheader.png" mode="" />
+    <image class="header-img" src="https://wxpaylogo.qpic.cn/wxpaylogo/PiajxSqBRaEIPAeia7ImvtshJxZlANoORfrvHjkg8qxEotQLXQhPGMQQ/0" mode="" />
     <view class="cover"></view>
     <view class="title">江鲜新闻<span class="hot">HOT</span></view>
-    <view class="main-title">2021年江鲜大会</view>
-    <view class="sub">在小暑这个节点，作为“富春江畔第一村”、“东流第一关”、“浙江省小城镇综合整治省级样板村”的东梓关结合富阳区“富春山居 味道山乡”的品牌活动......</view>
-    <view class="news" v-for="(item, index) of newsList" :key="index" @click="goToDetail(item.contentUrl)">
+    <view class="main-title" >2021年江鲜大会</view>
+    <view class="sub" >在小暑这个节点，作为“富春江畔第一村”、“东流第一关”、“浙江省小城镇综合整治省级样板村”的东梓关结合富阳区“富春山居 味道山乡”的品牌活动......</view>
+    <view  class="news" v-for="(item, index) of newsList" :key="index" @click="goToDetail(item.contentUrl)">
       <image class="n-img" :src="item.coverUrl" mode="" />
       <view class="n-title">{{item.title}}</view>
+    </view>
+    <view v-if="newsList.length==0" class="">
+      <image class="noData" src="../../static/noData.jpg"></image>
     </view>
   </view>
 </template>
@@ -33,7 +36,7 @@ export default {
      getNews({
       currentPage:1,
       pageSize:100,
-      type:1
+      type:3
     }).then(res => {
       this.newsList = res.result.content
     })
@@ -42,7 +45,7 @@ export default {
     getNews({
       currentPage:1,
       pageSize:100,
-      type:1
+      type:3
     }).then(res => {
       this.newsList = res.result.content
       uni.stopPullDownRefresh()
@@ -52,7 +55,7 @@ export default {
     goToDetail(url) {
       uni.navigateToMiniProgram({
         appId:'wxb10c47503e8c8e01',
-        path:'pages/normal/index?atype=0&id=20201223A07D5B00'
+        path:url
         // path:url
       })
       // uni.navigateToMiniProgram({
@@ -75,11 +78,11 @@ export default {
   width: 750rpx;
   .header-img{
     width: 750rpx;
-    height: 325rpx;
+    height: 409rpx;
   }
   .cover{
     width: 750rpx;
-    height: 325rpx;
+    height: 409rpx;
     position: absolute;
     top: 0;
     left: 0;
@@ -129,6 +132,7 @@ export default {
     margin:  0 17rpx;
     border-top: 1px solid #ccc;
     .n-img{
+      flex: 0 0 192rpx;
       width: 192rpx;
       height: 108rpx;
       margin:  21rpx 0;
@@ -144,5 +148,9 @@ color: #010101;
   // .new + .new {
   //   border-top: 1rpx solid #666;
   // }
+}
+.noData{
+  width: 750rpx;
+  height: 1334rpx;
 }
 </style>

@@ -1,7 +1,10 @@
 <template>
   <view class="map-container">
+    <button class="btn" @click="scanxiaofei">
+      江鲜消费券
+    </button>
     <button class="btn" @click="scan">
-      开始核销
+      江鲜啤酒券
     </button>
     <!-- <view style="text-align:center;font-size:29rpx;padding:25rpx 0;font-weight:700;">核销记录</view>
     <view style="margin:0 25rpx;" v-for="(item, index) of list" :key="index">
@@ -39,6 +42,11 @@ export default {
     // this.setDeviceList()
   },
   methods: {
+    scanxiaofei(){
+      uni.navigateTo({
+         url: '/pages/hexiaopic/index'
+      });
+    },
     formatDateTime  (date) {
                 var y = date.getFullYear();
                 var m = date.getMonth() + 1;

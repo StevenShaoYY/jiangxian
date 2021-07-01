@@ -74,6 +74,12 @@
 			"style": {
 				"navigationBarTitleText": "消费券"
 			}
+		},
+		{
+			"path": "pages/hexiaopic/index",
+			"style": {
+				"navigationBarTitleText": "消费券"
+			}
 		}
 	],
 	"globalStyle": {
