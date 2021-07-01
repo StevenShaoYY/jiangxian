@@ -97,7 +97,7 @@ export default {
         uni.showToast({
           title: '请先输入消费金额！',
           icon:"none",
-          duration: 2000
+          duration: 3000
         });
         return
       }
@@ -105,7 +105,7 @@ export default {
         uni.showToast({
           title: '请先上传账单图片！',
           icon:"none",
-          duration: 2000
+          duration: 3000
         });
         return
       }
@@ -126,7 +126,7 @@ export default {
             if(res.code==200) {
               uni.showToast({
                 title: '核销成功',
-                duration: 2000,
+                duration: 10000,
                 mask:true
               });
               uni.navigateBack({
@@ -136,7 +136,7 @@ export default {
               uni.showToast({
                 title: res.message || res.result,
                 icon:'none',
-                duration: 2000,
+                duration: 10000,
                 mask:true
               });
             }
@@ -148,7 +148,7 @@ export default {
            uni.showToast({
                 title: '对不起，核销失败!',
                 icon:'none',
-                duration: 2000
+                duration: 10000
               });
         },
         complete:()=>{

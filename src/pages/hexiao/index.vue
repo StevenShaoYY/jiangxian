@@ -107,7 +107,7 @@ export default {
               })
               uni.showToast({
                 title: '核销成功',
-                duration: 20000
+                duration: 10000
               });
             } else {
               this.list.push({
@@ -117,7 +117,7 @@ export default {
               uni.showToast({
                 title: res.message || res.result,
                 icon:'none',
-                duration: 20000
+                duration: 10000
               });
             }
             console.log(this.list)
@@ -129,7 +129,7 @@ export default {
            uni.showToast({
                 title: '对不起，核销失败!',
                 icon:'none',
-                duration: 2000
+                duration: 10000
               });
         }
       })

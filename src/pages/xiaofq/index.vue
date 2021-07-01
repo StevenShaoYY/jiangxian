@@ -111,10 +111,10 @@ export default {
         this.hasBeerGet = true
       } else {
         this.hasBeerGet = false
-        if(res.result.moneyCouponStatus == 2) {
+        if(res.result.beerCouponStatus == 2) {
           this.beerRest=false
         }
-        if(res.result.moneyCouponStatus == 3) {
+        if(res.result.beerCouponStatus == 3) {
           this.start=false
         }
       }
