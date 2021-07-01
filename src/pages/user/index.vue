@@ -179,9 +179,9 @@ export default {
               uni.setStorageSync('token', res.result);
               
                   this.isLogin = true
-               getMiniCouponListFromWx({}).then(res =>{
-                      this.deviceNum = res.result.totalCount
-                  })
+              //  getMiniCouponListFromWx({}).then(res =>{
+              //         this.deviceNum = res.result.totalCount
+              //     })
               // uni.getUserInfo({
               //   provider:"weixin",
               //   success:(userInfo)=> {
