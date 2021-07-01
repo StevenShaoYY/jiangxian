@@ -9,7 +9,7 @@
     <view  class="add">杭州市富阳区东舒线与汤横线交叉路口</view>
     <view  class="add">往北约110米</view>
     <view  class="title">时间/</view>
-    <view class="add">2021年7月初</view>
+    <view class="add">2021年7月7日-7月11日</view>
     <image class="map-img" src="../../static/map-title.png" mode="" />
     <!-- <view class="tab-view">
       <tabBar :pageName.sync="pageName" />
