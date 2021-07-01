@@ -3,7 +3,7 @@
     <form @submit="scan" @reset="formReset">
         <view class="uni-form-item uni-column">
             <view class="title">消费金额</view>
-            <input class="uni-input" v-model="rmb"  type="number" name="input" placeholder="请输入用户消费金额" />
+            <input class="uni-input" v-model="rmb"  type="digit" name="input" placeholder="请输入用户消费金额" />
         </view>
         <view class="uni-form-item uni-column">
             <view class="title">上传账单</view>
@@ -123,27 +123,29 @@ export default {
          
           hexiao({code:e.result,consumeAmount:this.rmb*100,consumeBillPic:this.imgSrc}).then(res => {
             console.log(res)
+            uni.hideLoading();
             if(res.code==200) {
               uni.showToast({
                 title: '核销成功',
                 duration: 10000,
                 mask:true
               });
-              uni.navigateBack({
-                 delta: 1
-              });
+              setTimeout(()=>{
+                uni.navigateBack({
+                  delta: 1
+                });
+              },3000)
             } else {
               uni.showToast({
                 title: res.message || res.result,
                 icon:'none',
-                duration: 10000,
-                mask:true
+                duration: 10000
               });
             }
-            uni.hideLoading();
           })
         },
         fail:(e)=>{
+          uni.hideLoading();
           // console.log(e)
            uni.showToast({
                 title: '对不起，核销失败!',
