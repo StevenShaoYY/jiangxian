@@ -144,10 +144,13 @@ export default {
 <style lang="scss">
 .map-container {
   width: 750rpx;
-  height: 100vh;
+  height: 70vh;
   overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   .btn{
-    margin: 20rpx;
+    margin: 50rpx 20rpx;
   }
 }
 </style>
