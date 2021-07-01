@@ -98,7 +98,7 @@ export default {
         ],
         success:(e)=>{
           console.log(e)
-          hexiao({code:e.result,consumeAmount:200000,consumeBillPic:"2222"}).then(res => {
+          hexiao({code:e.result}).then(res => {
             console.log(res)
             if(res.code==200) {
               this.list.push({
