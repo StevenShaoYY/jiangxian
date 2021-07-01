@@ -3,8 +3,9 @@
     <image class="back-img" src="../../static/xiaofeiquanbac.png" mode="" />
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
-    <view class="btn" v-if="hasGet==true && rest==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
-    <view class="btn" v-if="rest==false"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
+    <view class="btn" v-if="hasGet==true && rest==true&&start==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="rest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
+    <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
     <send-coupon
       v-if="hasGet==false && rest==true"
       @customevent="getcoupon"
@@ -22,12 +23,15 @@
     <view class="fenge"></view>
     <view class="word2">
       用户领取规则：</view>
-    <view class="word">    &nbsp;&nbsp;   7月6日-7月10日，每日10:00开启江鲜券发放，进入云享江鲜大会平台“江鲜券”领取页面，在线领取“江鲜消费券”。</view>
-    <view class="word">    &nbsp;&nbsp;   消费券自动存入微信卡包，可用于场口镇各指定民宿、江鲜馆、夜宵市集等消费；结账时，向商家出示券码，当场抵扣现金。</view>
-    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  使用时间：7月7日-7月11日</view>
+    <view class="word">    &nbsp;&nbsp;   7月6日-7月10日，每日10:00开启江鲜券发放，江鲜券面额随机，每人每天限领一张，每天限额2万元，领完截止</view>
+    <view class="word">    &nbsp;&nbsp;   消费券自动存入微信卡包，可用于场口镇各指定民宿、江鲜馆、夜宵市集消费；结账时，向商家出示券码，当场抵扣现金</view>
+    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  江鲜券使用时间：7月7日-7月11日</view>
+    <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  本活动最终解释权在法律允许范围内归主办方所有
+</view>
     <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
-    <view class="btn" v-if="hasBeerGet==true&&beerRest==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
-    <view class="btn" v-if="beerRest==false"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
+    <view class="btn" v-if="hasBeerGet==true&&beerRest==true&&start==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
+    <view class="btn" v-if="beerRest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
+    <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
     <send-coupon
       v-if="hasBeerGet==false&&beerRest==true"
       @customevent="getbeercoupon"
@@ -47,9 +51,10 @@
     <view class="fenge"></view>
     <view class="word2">
       用户领取规则：</view>
-    <view class="word">    &nbsp;&nbsp;  7月6日-7月10日，每日10:00开启啤酒券发放，进入云享江鲜大会平台“江鲜券”领取页面，在线领取“啤酒兑换券”。 </view>
-    <view class="word qbottom">    &nbsp;&nbsp;   使用时间：7月7日-7月11日，当天领的啤酒券第二天到指定地点兑换
-</view>
+    <view class="word">    &nbsp;&nbsp;  7月6日-7月10日，每日10:00开启啤酒券发放，每人每天限领一张，领完截止 </view>
+    <view class="word">    &nbsp;&nbsp;   每张啤酒券可以兑换千岛湖9°P扎啤一罐（1000ml）</view>
+    <view class="word">    &nbsp;&nbsp;   使用时间：7月7日-7月11日，当天领的啤酒券第二天到指定地点兑换，过期不可使用，请按规定时间兑换</view>
+    <view class="word qbottom">    &nbsp;&nbsp;   本活动最终解释权在法律允许范围内归主办方所有</view>
   </view>
 </template>
 
@@ -64,6 +69,7 @@ export default {
       hasGet:false,
       hasBeerGet:false,
       rest:true,
+      start:true,
       beerRest:true,
       couponDetail:{},
       beercouponDetail:{},
@@ -92,6 +98,9 @@ export default {
         if(res.result.moneyCouponStatus == 2) {
           this.rest=false
         }
+        if(res.result.moneyCouponStatus == 3) {
+          this.start=false
+        }
       }
       if(res.result.beerCouponStatus == 1) {
         this.hasBeerGet = true
@@ -99,6 +108,9 @@ export default {
         this.hasBeerGet = false
         if(res.result.moneyCouponStatus == 2) {
           this.beerRest=false
+        }
+        if(res.result.moneyCouponStatus == 3) {
+          this.start=false
         }
       }
     })
