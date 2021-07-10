@@ -28,6 +28,13 @@ export default {
   computed: {
     // ...mapGetters(['userInfo', 'deviceNum', 'isLogin'])
   },
+
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index'
+    }
+  },
   data() {
     return {
       isLogin:false,

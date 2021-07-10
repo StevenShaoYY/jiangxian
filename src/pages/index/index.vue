@@ -22,6 +22,7 @@ import user from '../user/index';
 import tabBar from '../../layouts/tabBar';
 export default {
   onLoad: function(option) {
+    this.pageName = option.pageName
     if (option.isLogin === 'true') {
       uni.showToast({ title: '登录成功' })
     }
@@ -30,6 +31,20 @@ export default {
     return {
       pageName: 'home',
       pullDownRefresh: false
+    }
+  },
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index',
+      imageUrl:'../../static/0.jpg'
+    }
+  },
+  onShareTimeline(){
+     return {
+      title:"江鲜大会",
+      query:'/pages/index/index',
+      imageUrl:'../../static/0.jpg'
     }
   },
   watch: {
@@ -58,17 +73,6 @@ export default {
           this.$refs.device.loadMore()
           break
       }
-    },
-    onPullDownRefresh() {
-      if (this.pageName === 'device') {
-        this.$nextTick(() => {
-          setTimeout(() => {
-            this.pullDownRefresh = false
-            uni.stopPullDownRefresh();
-          }, 500)
-        })
-      } else uni.stopPullDownRefresh();
-      this.pullDownRefresh = true
     }
   },
   components: {

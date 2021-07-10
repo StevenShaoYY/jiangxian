@@ -3,7 +3,8 @@
     <image class="header-img" src="https://wxpaylogo.qpic.cn/wxpaylogo/PiajxSqBRaEIPAeia7ImvtshJxZlANoORfrvHjkg8qxEotQLXQhPGMQQ/0" mode="" />
     <view class="cover"></view>
     <view class="title">江鲜新闻<span class="hot">HOT</span></view>
-    <view class="main-title" >2021年江鲜大会</view>
+    <view class="main-title" >浙江省二十四节气小暑活动</view>
+<view class="main-title" >2021富春江开渔节暨江鲜大会</view>
     <view class="sub" >在小暑这个节点，作为“富春江畔第一村”、“东流第一关”、“浙江省小城镇综合整治省级样板村”的东梓关结合富阳区“富春山居 味道山乡”的品牌活动......</view>
     <view  class="news" v-for="(item, index) of newsList" :key="index" @click="goToDetail(item.contentUrl)">
       <image class="n-img" :src="item.coverUrl" mode="" />
@@ -26,6 +27,12 @@ export default {
       newsList:[
        
       ]
+    }
+  },
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index'
     }
   },
   computed: {

@@ -2,7 +2,7 @@
   <view class="no-data-container" :style="setHeight">
     <img
       class="no-data-img"
-      src="../static/icon_noData.svg"
+      src="../static/noData.jpg"
       :style="setSize"
     >
     <view class="no-data-text">{{ text }}</view>

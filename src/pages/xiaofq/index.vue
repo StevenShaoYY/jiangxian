@@ -4,7 +4,7 @@
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
     <view class="btn" v-if="hasGet==true&&rest==true&&start==true&&isLogin==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
-    <view class="btn" v-if="isLogin==false"  :style="{background:'#aaa'}">{{"请先登陆"}}</view>
+    <view class="btn" v-if="isLogin==false" @click="gotologin" :style="{background:'#aaa'}">{{"请先登陆"}}</view>
     <view class="btn" v-if="rest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
     <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
     <send-coupon
@@ -31,7 +31,7 @@
 </view>
     <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
     <view class="btn" v-if="hasBeerGet==true&&beerRest==true&&start==true&&isLogin==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
-    <view class="btn" v-if="isLogin==false"  :style="{background:'#aaa'}">{{"请先登陆"}}</view>
+    <view class="btn" v-if="isLogin==false"  @click="gotologin" :style="{background:'#aaa'}">{{"请先登陆"}}</view>
     <view class="btn" v-if="beerRest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
     <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
     <send-coupon
@@ -54,7 +54,7 @@
     <view class="word2">
       用户领取规则：</view>
     <view class="word">    &nbsp;&nbsp;  7月6日-7月10日，每日10:00开启啤酒券发放，每人每天限领一张，领完截止 </view>
-    <view class="word">    &nbsp;&nbsp;   每张啤酒券可以兑换千岛湖9°P扎啤一罐（1000ml）</view>
+    <view class="word">    &nbsp;&nbsp;   每张啤酒券可以兑换千岛湖小罐扎啤/精酿原浆1罐（1000ml）</view>
     <view class="word">    &nbsp;&nbsp;   使用时间：7月7日-7月11日，当天领的啤酒券第二天到指定地点兑换，过期不可使用，请按规定时间兑换</view>
     <view class="word qbottom">    &nbsp;&nbsp;   本活动最终解释权在法律允许范围内归主办方所有</view>
   </view>
@@ -88,12 +88,18 @@ export default {
       delStock:"1209180000000033"
     }
   },
+
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index'
+    }
+  },
   created() {
     let opind = uni.getStorageSync('token')
     if(opind&&opind!=='') {
       this.isLogin = true
     }
-    console.log(this.isLogin)
     getTodayStatus({}).then(res => {
       console.log(res)
       if(res.result.moneyCouponStatus == 1) {
@@ -147,6 +153,11 @@ export default {
     })
   },
   methods: {
+    gotologin(){
+      uni.navigateTo({
+         url: '/pages/index/index?pageName=user'
+      });
+    },
     getcoupon(params) {
       // 插件返回信息在params.detail
       console.log('getcoupon', params)

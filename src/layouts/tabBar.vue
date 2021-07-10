@@ -60,6 +60,9 @@ export default {
   computed: {
     ...mapGetters(['isIos', 'barHidden']),
     isSelected() {
+      if(this.pageName=='user') {
+        this.currentSelected = 1
+      }
       return (index) => this.currentSelected === index ? true : false
     }
   },

@@ -41,6 +41,14 @@ export default {
       this.dishList = res.result
     })
   },
+
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index',
+      imageUrl:"../../static"
+    }
+  },
   onPullDownRefresh(){
     getActive({
       type:2
@@ -84,11 +92,15 @@ export default {
         display: flex;
         flex: 1;
         height: 314rpx;
+        width: 280rpx;
         justify-content: center;
         align-items: center;
         .right-pic{
-          width: 41rpx;
-          height: 219rpx;
+        max-width: 100rpx;
+        //width:100%;
+        //display:inline-block;
+       // max-width:50%;
+          height: 250rpx;
         }
       }
     }

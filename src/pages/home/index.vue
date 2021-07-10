@@ -34,8 +34,8 @@
         @click="Goto(item.url)"
       > 
         <image class="menu-img" :src="item.pic" mode="" />
-        <view class="main-name">{{item.name}}</view>
-        <view class="sub-name">{{item.sub}}</view>
+        <!-- <view class="main-name">{{item.name}}</view>
+        <view class="sub-name">{{item.sub}}</view> -->
         
       </view>
     </view>
@@ -46,7 +46,7 @@
 import { mapGetters } from 'vuex';
 import tabBar from '../../layouts/tabBar';
 import noData from '../../layouts/noData';
-import {getNews} from '@/api/device';
+import {getNews,getTodayStatus} from '@/api/device';
 export default {
   data() {
     return {
@@ -57,35 +57,66 @@ export default {
       duration: 500,
       swiperList: [],
       swiperHotList:[],
+      // cardList:[{
+      //   name:'小暑品江鲜',
+      //   sub:'活动详情',
+      //   pic:'../../static/main1.png',
+      //   url:'/pages/date/index'
+      // },{
+      //   name:'江鲜券',
+      //   sub:'等你来抢',
+      //   pic:'../../static/main2.png',
+      //   url:'/pages/xiaofq/index'
+      // },{
+      //   name:'江鲜新闻',
+      //   sub:'抢先收看',
+      //   pic:'../../static/main3.png',
+      //   url:'/pages/news/index'
+      // },{
+      //   name:'邮乐购',
+      //   sub:'农产品尝鲜',
+      //   pic:'../../static/main4.png',
+      //   url:'/pages/shop/index'
+      // },{
+      //   name:'江鲜地图',
+      //   sub:'一键导航',
+      //   pic:'../../static/main5.png',
+      //   url:'/pages/map/index'
+      // },{
+      //   name:'江鲜大赛',
+      //   sub:'创意烹饪',
+      //   pic:'../../static/main7.png',
+      //   url:'/pages/game/index'
+      // }],
       cardList:[{
-        name:'小暑品江鲜',
-        sub:'活动详情',
-        pic:'../../static/main1.png',
+        name:'',
+        sub:'',
+        pic:'../../static/main12.png',
         url:'/pages/date/index'
       },{
-        name:'江鲜券',
-        sub:'等你来抢',
-        pic:'../../static/main2.png',
+        name:'',
+        sub:'',
+        pic:'../../static/main11.png',
         url:'/pages/xiaofq/index'
       },{
-        name:'江鲜新闻',
-        sub:'抢先收看',
-        pic:'../../static/main3.png',
+        name:'',
+        sub:'',
+        pic:'../../static/main10.png',
         url:'/pages/news/index'
       },{
-        name:'邮乐购',
-        sub:'农产品尝鲜',
-        pic:'../../static/main4.png',
+        name:'',
+        sub:'',
+        pic:'../../static/main9.png',
         url:'/pages/shop/index'
       },{
-        name:'江鲜地图',
-        sub:'一键导航',
-        pic:'../../static/main5.png',
+        name:'',
+        sub:'',
+        pic:'../../static/main8.png',
         url:'/pages/map/index'
       },{
-        name:'江鲜大赛',
-        sub:'创意烹饪',
-        pic:'../../static/main6.png',
+        name:'',
+        sub:'',
+        pic:'../../static/main7.png',
         url:'/pages/game/index'
       }],
       deviceList: [],
@@ -107,11 +138,30 @@ export default {
       return temp2[1] +  '/' + temp2[2]
     }
   },
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index',
+      imageUrl:'../../static/0.jpg'
+    }
+  },
+  onShareTimeline(){
+     return {
+      title:"江鲜大会",
+      query:'/pages/index/index',
+      imageUrl:'../../static/0.jpg'
+    }
+  },
   computed: {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
   created() {
     // this.setDeviceList()
+    let opind = uni.getStorageSync('token')
+    if(opind&&opind!=='') {
+      getTodayStatus({})
+    }
+    
     getNews({
       currentPage:1,
       pageSize:4,
@@ -163,8 +213,8 @@ export default {
   overflow: hidden;
   .swiper {
 		height: 30vh;
-    width: 95.6%;
-    margin-left: 2.2%;
+    width: 717rpx;
+    margin-left: 16.5rpx;
     border-radius: 10rpx;
     box-shadow: 0rpx 4rpx 10rpx 0rpx rgba(124, 124, 124, 0.38);
     .swiper-item {
@@ -181,8 +231,8 @@ export default {
     }
 	}
   .jiangxian-hot{
-    width:735rpx;
-    margin-left:7.5rpx;
+    width:733rpx;
+    margin-left:10rpx;
     // background: linear-gradient(0deg, #DDEBE1, #EAF6EE);
     background:url("../../static/header1.png");
     background-size: 735rpx 126rpx;
@@ -248,14 +298,18 @@ export default {
     margin-bottom:50rpx;
     margin-top: 20rpx;
     .card{
-      width: 365rpx;
-      height: 283rpx;
-      margin-left: 8rpx;
+      width: 349rpx;
+      height: 262rpx;
+      margin-left: 19rpx;
+      margin-bottom: 22rpx;
       position: relative;
+      border-radius: 10rpx;
+      box-shadow: 0px -4rpx 11rpx 0px rgba(124, 124, 124, 0.31);
       .menu-img{
-        width: 368rpx ;
-        height: 284rpx;
+        width: 351rpx ;
+        height: 262rpx;
         z-index: -1;
+        border-radius: 10rpx;
         position: absolute;
       }
       // background-size: 365rpx 283rpx;

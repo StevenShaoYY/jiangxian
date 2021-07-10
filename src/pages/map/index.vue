@@ -37,6 +37,12 @@ export default {
   computed: {
     ...mapGetters(['isLogin', 'productList', 'deviceTypeList'])
   },
+  onShareAppMessage(res){
+    return {
+      title:"江鲜大会",
+      path:'/pages/index/index'
+    }
+  },
   created() {
     // this.setDeviceList()
   },
