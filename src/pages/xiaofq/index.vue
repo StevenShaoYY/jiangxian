@@ -3,10 +3,10 @@
     <image class="back-img" src="../../static/xiaofeiquanbac.png" mode="" />
     <image class="title-img" src="../../static/xiaofeiquan-title.png" mode="" />
     <image class="xfq-img" src="../../static/xiaofeiquan2.png" mode="" />
-    <view class="btn" v-if="hasGet==true&&rest==true&&start==true&&isLogin==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view>
-    <view class="btn" v-if="isLogin==false" @click="gotologin" :style="{background:'#aaa'}">{{"请先登陆"}}</view>
-    <view class="btn" v-if="rest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
-    <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
+    <!-- <view class="btn" v-if="hasGet==true&&rest==true&&start==true&&isLogin==true"  :style="{background:hasGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasGet?"今日已领取":"立即领取"}}</view> -->
+    <!-- <view class="btn" v-if="isLogin==false" @click="gotologin" :style="{background:'#aaa'}">{{"请先登陆"}}</view> -->
+    <!-- <view class="btn" v-if="rest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view> -->
+    <view class="btn"  :style="{background:'#aaa'}">{{"活动已结束"}}</view>
     <send-coupon
       v-if="hasGet==false && rest==true&&start==true&&isLogin==true"
       @customevent="getcoupon"
@@ -30,10 +30,10 @@
     <view class="word"> &nbsp;&nbsp;&nbsp;&nbsp;  本活动最终解释权在法律允许范围内归主办方所有
 </view>
     <image class="xfq-img pijiu" src="../../static/123123.png" mode="" />
-    <view class="btn" v-if="hasBeerGet==true&&beerRest==true&&start==true&&isLogin==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
+    <!-- <view class="btn" v-if="hasBeerGet==true&&beerRest==true&&start==true&&isLogin==true" :style="{background:hasBeerGet==true?'#aaa':'linear-gradient(0deg, #BE6569, #D5B8AF)'}">{{hasBeerGet?"今日已领取":"立即领取"}}</view>
     <view class="btn" v-if="isLogin==false"  @click="gotologin" :style="{background:'#aaa'}">{{"请先登陆"}}</view>
-    <view class="btn" v-if="beerRest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view>
-    <view class="btn" v-if="start==false"  :style="{background:'#aaa'}">{{"活动尚未开始"}}</view>
+    <view class="btn" v-if="beerRest==false&&start==true"  :style="{background:'#aaa'}">{{"今日已领完"}}</view> -->
+    <view class="btn"  :style="{background:'#aaa'}">{{"活动已结束"}}</view>
     <send-coupon
       v-if="hasBeerGet==false&&beerRest==true&&start==true&&isLogin==true"
       @customevent="getbeercoupon"
@@ -96,61 +96,61 @@ export default {
     }
   },
   created() {
-    let opind = uni.getStorageSync('token')
-    if(opind&&opind!=='') {
-      this.isLogin = true
-    }
-    getTodayStatus({}).then(res => {
-      console.log(res)
-      if(res.result.moneyCouponStatus == 1) {
-        this.hasGet = true
-      } else {
-        this.hasGet = false
-        if(res.result.moneyCouponStatus == 2) {
-          this.rest=false
-        }
-        if(res.result.moneyCouponStatus == 3) {
-          this.start=false
-        }
-      }
-      if(res.result.beerCouponStatus == 1) {
-        this.hasBeerGet = true
-      } else {
-        this.hasBeerGet = false
-        if(res.result.beerCouponStatus == 2) {
-          this.beerRest=false
-        }
-        if(res.result.beerCouponStatus == 3) {
-          this.start=false
-        }
-      }
-    })
+    // let opind = uni.getStorageSync('token')
+    // if(opind&&opind!=='') {
+    //   this.isLogin = true
+    // }
+    // getTodayStatus({}).then(res => {
+    //   console.log(res)
+    //   if(res.result.moneyCouponStatus == 1) {
+    //     this.hasGet = true
+    //   } else {
+    //     this.hasGet = false
+    //     if(res.result.moneyCouponStatus == 2) {
+    //       this.rest=false
+    //     }
+    //     if(res.result.moneyCouponStatus == 3) {
+    //       this.start=false
+    //     }
+    //   }
+    //   if(res.result.beerCouponStatus == 1) {
+    //     this.hasBeerGet = true
+    //   } else {
+    //     this.hasBeerGet = false
+    //     if(res.result.beerCouponStatus == 2) {
+    //       this.beerRest=false
+    //     }
+    //     if(res.result.beerCouponStatus == 3) {
+    //       this.start=false
+    //     }
+    //   }
+    // })
     // getMiniCouponListFromWx({}).then(res => {
     //   console.log(res.result.content)
     //   for(let item of res.result.content) {
     //     console.log("stock_id："+item.stock_id+',code：'+item.coupon_code)
     //   }
     // })
-    getXiaofeiquan({type:1}).then(res => {
-        console.log(888,res)
-        this.sign = res.result.sign
-        this.couponDetail = res.result.miniCoupon
-        this.send_coupon_merchant = res.result.sendCouponMerchant
-        this.send_coupon_params=[{
-          "stock_id": res.result.stockId,
-          "out_request_no": res.result.outRequestNo
-        }]
-    })
-    getXiaofeiquan({type:2}).then(res => {
-        console.log(999,res)
-        this.beersign = res.result.sign
-        this.beercouponDetail =  res.result.miniCoupon
-        this.send_coupon_merchant = res.result.sendCouponMerchant
-        this.beersend_coupon_params=[{
-          "stock_id": res.result.stockId,
-          "out_request_no": res.result.outRequestNo
-        }]
-    })
+    // getXiaofeiquan({type:1}).then(res => {
+    //     console.log(888,res)
+    //     this.sign = res.result.sign
+    //     this.couponDetail = res.result.miniCoupon
+    //     this.send_coupon_merchant = res.result.sendCouponMerchant
+    //     this.send_coupon_params=[{
+    //       "stock_id": res.result.stockId,
+    //       "out_request_no": res.result.outRequestNo
+    //     }]
+    // })
+    // getXiaofeiquan({type:2}).then(res => {
+    //     console.log(999,res)
+    //     this.beersign = res.result.sign
+    //     this.beercouponDetail =  res.result.miniCoupon
+    //     this.send_coupon_merchant = res.result.sendCouponMerchant
+    //     this.beersend_coupon_params=[{
+    //       "stock_id": res.result.stockId,
+    //       "out_request_no": res.result.outRequestNo
+    //     }]
+    // })
   },
   methods: {
     gotologin(){
